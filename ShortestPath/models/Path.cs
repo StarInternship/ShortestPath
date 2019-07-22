@@ -7,9 +7,15 @@ namespace ShortestPath.models
         public static Path NOT_FOUND { get; } = new Path() { Distance = double.MaxValue };
         public double Distance { get; private set; }
 
-        public void Add(Edge edge)
+        public new void AddFirst(Edge edge)
         {
-            AddFirst(edge);
+            base.AddFirst(edge);
+            Distance += edge.Weight;
+        }
+
+        public new void AddLast(Edge edge)
+        {
+            base.AddLast(edge);
             Distance += edge.Weight;
         }
     }

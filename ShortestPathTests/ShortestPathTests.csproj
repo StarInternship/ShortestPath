@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7A2461AB-3EDA-47C1-B5E0-9F8FE9CE93C8}</ProjectGuid>
+    <ProjectGuid>{1319B8C1-EFAA-4F41-BDF1-CB7EA8B7BECC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ShortestPathTests</RootNamespace>
@@ -56,6 +56,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="models\GraphTests.cs" />
+    <Compile Include="models\PriorityQueueTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -66,9 +68,6 @@
       <Project>{F8112783-9BAA-4661-9669-0170B731D7C6}</Project>
       <Name>ShortestPath</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="models\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
