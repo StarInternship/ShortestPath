@@ -33,13 +33,10 @@ namespace ShortestPath.models.Tests
                 Assert.Fail();
             }
 
-            expected.ForEach(path =>
+            for (int i = 0; i < expected.Count; i++)
             {
-                if(!actual.Contains(path))
-                {
-                    Assert.Fail();
-                }
-            });
+                CollectionAssert.AreEqual(expected[i], actual[i]);
+            }
         }
     }
 }
