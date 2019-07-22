@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ShortestPath.models
 {
-    public class PriorityQueue : LinkedList<Node>
+    public class PriorityQueue
     {
-        public void Add(Node node)
-        {
-
-        }
+        private readonly SortedDictionary<double, Node> dictionary = new SortedDictionary<double, Node>();
+        public void Add(Node node) => dictionary.Add(node.Distance, node);
 
         public Node Pop()
         {
-            return new Node(0);
+            var first = dictionary.First();
+            dictionary.Remove(first.Key);
+            return first.Value;
         }
     }
 }
