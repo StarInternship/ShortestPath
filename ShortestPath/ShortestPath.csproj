@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="models\Edge.cs" />
     <Compile Include="models\Graph.cs" />
+    <Compile Include="models\GraphReader.cs" />
     <Compile Include="models\Node.cs" />
     <Compile Include="models\Path.cs" />
     <Compile Include="models\PriorityQueue.cs" />

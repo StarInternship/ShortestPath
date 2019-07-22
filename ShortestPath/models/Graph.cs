@@ -53,11 +53,12 @@ namespace ShortestPath.models
 
             Edge lastEdge = target.LastInEdge;
             if (lastEdge == null) return Path.NOT_FOUND;
-            while (GetNode(lastEdge.From).Index != source.Index)
+            path.Add(lastEdge);
+            do
             {
-                path.Add(lastEdge);
                 lastEdge = GetNode(lastEdge.From).LastInEdge;
-            }
+                path.Add(lastEdge);
+            } while (GetNode(lastEdge.From).Index != source.Index);
             return path;
         }
 
@@ -75,7 +76,7 @@ namespace ShortestPath.models
         private bool IsAShorterPath(Node node, Edge edge)
         {
             return node.Distance + edge.Weight < GetNode(edge.To).Distance;
-            
+
         }
 
         // if we already found a shorter path to target, it returns false
