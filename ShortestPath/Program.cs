@@ -20,21 +20,25 @@ namespace ShortestPath
                 int destination = int.Parse(Console.ReadLine());
 
                 stopwatch.Restart();
-                var path = graph.FindPath(source, destination);
+                var paths = graph.FindPath(source, destination);
 
-                if (path.Equals(Path.NOT_FOUND))
+                if (paths.Count == 0)
                 {
                     Console.WriteLine("not found. time: " + stopwatch.ElapsedMilliseconds + " ms.");
                 }
                 else
                 {
-                    Console.WriteLine("find a path in " + stopwatch.ElapsedMilliseconds + " ms with distance of " + path.Distance);
-                    Console.Write("[" + source + "]");
-                    foreach (Edge edge in path)
+                    Console.WriteLine("find " + paths.Count + " paths in " + stopwatch.ElapsedMilliseconds + " ms with distance of " + paths[0].Distance);
+
+                    paths.ForEach(path =>
                     {
-                        Console.Write(" -(" + edge.Weight + ")-> [" + edge.To + "]");
-                    }
-                    Console.WriteLine();
+                        Console.Write("[" + source + "]");
+                        foreach (Edge edge in path)
+                        {
+                            Console.Write(" -(" + edge.Weight + ")-> [" + edge.To + "]");
+                        }
+                        Console.WriteLine();
+                    });
                 }
             }
         }

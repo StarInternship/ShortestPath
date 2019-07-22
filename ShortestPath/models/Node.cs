@@ -25,12 +25,12 @@ namespace ShortestPath.models
             Outs.Add(edge);
         }
 
-        public void AddEqualPath(Edge edge)
+        public void AddInEdge(Edge edge)
         {
             LastInEdges.Add(edge);
         }
 
-        public void ClearAddLastEdge(Edge edge , double newDistance)
+        public void RecreateInEdges(Edge edge , double newDistance)
         {
             LastInEdges.Clear();
             LastInEdges.Add(edge);

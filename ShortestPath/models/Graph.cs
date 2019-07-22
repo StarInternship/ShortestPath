@@ -20,12 +20,12 @@ namespace ShortestPath.models
 
         public void AddEdge(int from, int to, double weight) => GetNode(from).AddEgde(new Edge(from, to, weight));
 
-        public Path FindPath(int src, int dest)
+        public List<Path> FindPath(int src, int dest)
         {
             return FindPath(GetNode(src), GetNode(dest));
         }
 
-        public Path FindPath(Node source, Node target)
+        public List<Path> FindPath(Node source, Node target)
         {
             Reset();
             source.Distance = 0;
@@ -41,7 +41,7 @@ namespace ShortestPath.models
 
                 node.Outs.ForEach(edge => UpdateEdgeDestination(target, currentNodes, node, edge));
             }
-            return CreatePath(source, target);
+            return CreatePaths(source, target);
         }
 
         private void Reset()
@@ -52,9 +52,9 @@ namespace ShortestPath.models
             }
         }
 
-        private Path CreatePath(Node source, Node target)
+        private List<Path> CreatePaths(Node source, Node target)
         {
-            Path path = new Path();
+            List<Path> path = new List<Path>();
 
             return path;
         }
@@ -66,10 +66,10 @@ namespace ShortestPath.models
             {
                 if (IsAShorterPath(node, edge)) {
                     currentNodes.Add(GetNode(edge.To));
-                    GetNode(edge.To).ClearAddLastEdge(edge , node.Distance + edge.Weight);
+                    GetNode(edge.To).RecreateInEdges(edge , node.Distance + edge.Weight);
                 }
                 if (IsEqualPath(node, edge)) {
-                    GetNode(edge.To).AddEqualPath(edge);
+                    GetNode(edge.To).AddInEdge(edge);
                 }
             }
         }
