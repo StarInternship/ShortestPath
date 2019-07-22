@@ -12,5 +12,12 @@ namespace ShortestPath.models
         public Edge LastInEdge { get; set; }
 
         public Node(int index) => Index = index;
+
+        public void Reset()
+        {
+            Visited = false;
+            Distance = Double.MaxValue;
+            LastInEdge = null;
+        }
     }
 }

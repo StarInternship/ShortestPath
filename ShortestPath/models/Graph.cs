@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ShortestPath.models
 {
@@ -21,10 +22,9 @@ namespace ShortestPath.models
 
         public Path FindePath(Node source, Node target)
         {
+            Reset();
             source.Distance = 0;
-
             PriorityQueue currentNodes = new PriorityQueue();
-
             currentNodes.Add(source);
 
             while (!currentNodes.IsEmpty())
@@ -44,9 +44,23 @@ namespace ShortestPath.models
                     }
                 }
             }
+            return CreatePath(source, target);
+        }
+
+        private void Reset()
+        {
+            foreach (Node node in nodes)
+            {
+                node.Reset();
+            }
+        }
+
+        private Path CreatePath(Node source, Node target)
+        {
             Path path = new Path();
 
             Edge lastEdge = target.LastInEdge;
+            if (lastEdge == null) return Path.NOT_FOUND;
             while (GetNode(lastEdge.From).Index != source.Index)
             {
                 path.Add(lastEdge);
