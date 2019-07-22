@@ -9,7 +9,7 @@ namespace ShortestPath.models
         public List<Edge> Outs { get; } = new List<Edge>();
         public bool Visited { get; set; }
         public double Distance { get; set; } = Double.MaxValue;
-        public Edge LastInEdge { get; set; }
+        public List<Edge> LastInEdges { get; set; } = new List<Edge>();
 
         public Node(int index) => Index = index;
 
@@ -17,12 +17,26 @@ namespace ShortestPath.models
         {
             Visited = false;
             Distance = Double.MaxValue;
-            LastInEdge = null;
+            LastInEdges = new List<Edge>();
         }
 
         public void AddEgde(Edge edge)
         {
             Outs.Add(edge);
         }
+
+        public void AddEqualPath(Edge edge)
+        {
+            LastInEdges.Add(edge);
+        }
+
+        public void ClearAddLastEdge(Edge edge , double newDistance)
+        {
+            LastInEdges.Clear();
+            LastInEdges.Add(edge);
+            Distance = newDistance;
+        }
+
+
     }
 }
