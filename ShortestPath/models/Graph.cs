@@ -18,7 +18,7 @@ namespace ShortestPath.models
 
         public Node GetNode(int index) => nodes[index];
 
-        public void AddEdge(int from, int to, double weight) => GetNode(from).AddEgde(new Edge(from, to, weight));
+        public void AddEdge(int from, int to, double weight) => GetNode(from).AddEgde(new Edge(GetNode(from), GetNode(to), weight));
 
         public List<Path> FindPath(int src, int dest)
         {
@@ -66,7 +66,7 @@ namespace ShortestPath.models
                 currentState.RemoveFirst();
 
                 Edge firstEdge = path.First();
-                Node firstNode = GetNode(firstEdge.From);
+                Node firstNode = firstEdge.From;
                 if (firstNode.Equals(source))
                 {
                     result.Add(path);
@@ -91,12 +91,12 @@ namespace ShortestPath.models
             {
                 if (IsAShorterPath(node, edge))
                 {
-                    GetNode(edge.To).RecreateInEdges(edge, node.Distance + edge.Weight);
-                    currentNodes.Add(GetNode(edge.To));
+                    edge.To.RecreateInEdges(edge, node.Distance + edge.Weight);
+                    currentNodes.Add(edge.To);
                 }
                 else if (IsEqualPath(node, edge))
                 {
-                    GetNode(edge.To).AddInEdge(edge);
+                    edge.To.AddInEdge(edge);
                 }
             }
         }
@@ -104,12 +104,12 @@ namespace ShortestPath.models
         // this path is a shorter path to edge.to?
         private bool IsAShorterPath(Node node, Edge edge)
         {
-            return node.Distance + edge.Weight < GetNode(edge.To).Distance;
+            return node.Distance + edge.Weight < edge.To.Distance;
 
         }
         private bool IsEqualPath(Node node, Edge edge)
         {
-            return node.Distance + edge.Weight == GetNode(edge.To).Distance;
+            return node.Distance + edge.Weight == edge.To.Distance;
         }
 
         // if we already found a shorter path to target, it returns false
