@@ -9,6 +9,7 @@ namespace ShortestPath.models
         public LinkedList<Edge> Outs { get; } = new LinkedList<Edge>();
         public bool Visited { get; set; }
         public double Distance { get; set; } = Double.MaxValue;
+        public Edge LastInEdge { get; set; };
 
         public Node(int index) => Index = index;
     }
