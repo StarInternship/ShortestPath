@@ -69,7 +69,8 @@ namespace ShortestPath.models
                 if (firstNode.Equals(source))
                 {
                     result.Add(path);
-                } else
+                }
+                else
                 {
                     firstNode.LastInEdges.ForEach(edge =>
                     {
@@ -92,7 +93,7 @@ namespace ShortestPath.models
                     currentNodes.Add(GetNode(edge.To));
                     GetNode(edge.To).RecreateInEdges(edge, node.Distance + edge.Weight);
                 }
-                if (IsEqualPath(node, edge))
+                else if (IsEqualPath(node, edge))
                 {
                     GetNode(edge.To).AddInEdge(edge);
                 }
@@ -113,7 +114,7 @@ namespace ShortestPath.models
         // if we already found a shorter path to target, it returns false
         private static bool PosiblePath(Node target, Node node, Edge edge)
         {
-            return target.Distance > node.Distance + edge.Weight;
+            return target.Distance >= node.Distance + edge.Weight;
         }
     }
 }
