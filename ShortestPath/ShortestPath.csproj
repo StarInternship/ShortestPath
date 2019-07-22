@@ -47,6 +47,7 @@
     <Compile Include="models\Graph.cs" />
     <Compile Include="models\Node.cs" />
     <Compile Include="models\Path.cs" />
+    <Compile Include="models\PriorityQueue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
