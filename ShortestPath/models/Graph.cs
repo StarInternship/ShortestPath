@@ -23,13 +23,13 @@ namespace ShortestPath.models
         {
             source.Distance = 0;
 
-            PriorityQueue borderNodes = new PriorityQueue();
+            PriorityQueue currentNodes = new PriorityQueue();
 
-            borderNodes.Add(source);
+            currentNodes.Add(source);
 
-            while (!borderNodes.IsEmpty())
+            while (!currentNodes.IsEmpty())
             {
-                Node node = borderNodes.Pop();
+                Node node = currentNodes.Pop();
 
                 if (node.Visited) continue;
                 node.Visited = true;
@@ -38,7 +38,7 @@ namespace ShortestPath.models
                 {
                     if (PosiblePath(target, node, edge) && IsAShorterPath(node, edge))
                     {
-                        borderNodes.Add(GetNode(edge.To));
+                        currentNodes.Add(GetNode(edge.To));
                         GetNode(edge.To).Distance = node.Distance + edge.Weight;
                         GetNode(edge.To).LastInEdge = edge;
                     }
