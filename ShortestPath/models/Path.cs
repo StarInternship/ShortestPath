@@ -8,8 +8,9 @@ namespace ShortestPath.models
         {
         }
 
-        public Path(IEnumerable<Edge> collection) : base(collection)
+        public Path(Path path) : base(path)
         {
+            this.Distance = path.Distance;
         }
 
         public double Distance { get; private set; }
