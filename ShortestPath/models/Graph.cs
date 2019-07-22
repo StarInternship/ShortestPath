@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ShortestPath.models
 {
-    class Graph
+    public class Graph
     {
         private readonly Node[] nodes;
 
@@ -20,7 +20,7 @@ namespace ShortestPath.models
 
         public void AddEdge(int from, int to, double weight) => GetNode(from).AddEgde(new Edge(from, to, weight));
 
-        public Path FindePath(Node source, Node target)
+        public Path FindPath(Node source, Node target)
         {
             Reset();
             source.Distance = 0;
@@ -55,7 +55,7 @@ namespace ShortestPath.models
             if (lastEdge == null) return Path.NOT_FOUND;
             while (GetNode(lastEdge.From).Index != source.Index)
             {
-                path.Add(lastEdge);
+                path.AddFirst(lastEdge);
                 lastEdge = GetNode(lastEdge.From).LastInEdge;
             }
             return path;
