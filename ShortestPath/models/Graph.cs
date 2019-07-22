@@ -17,7 +17,7 @@ namespace ShortestPath.models
 
         public Node GetNode(int index) => nodes[index];
 
-    
+        public void AddEdge(int from, int to, double weight) => GetNode(from).Outs.AddLast(new Edge(from, to, weight));
 
         public Path FindePath(Node source, Node target)
         {
