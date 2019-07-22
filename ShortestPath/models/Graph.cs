@@ -36,7 +36,8 @@ namespace ShortestPath.models
             {
                 Node node = currentNodes.Pop();
 
-                if (node.Visited) continue;
+                if (node.Visited)
+                    continue;
                 node.Visited = true;
 
                 node.Outs.ForEach(edge => UpdateEdgeDestination(target, currentNodes, node, edge));
@@ -90,8 +91,8 @@ namespace ShortestPath.models
             {
                 if (IsAShorterPath(node, edge))
                 {
-                    currentNodes.Add(GetNode(edge.To));
                     GetNode(edge.To).RecreateInEdges(edge, node.Distance + edge.Weight);
+                    currentNodes.Add(GetNode(edge.To));
                 }
                 else if (IsEqualPath(node, edge))
                 {
