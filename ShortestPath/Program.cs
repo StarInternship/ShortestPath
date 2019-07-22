@@ -35,7 +35,7 @@ namespace ShortestPath
                         Console.Write("[" + source + "]");
                         foreach (Edge edge in path)
                         {
-                            Console.Write(" -(" + edge.Weight + ")-> [" + edge.To + "]");
+                            Console.Write(" -(" + edge.Weight + ")-> [" + edge.To.Index + "]");
                         }
                         Console.WriteLine();
                     });
