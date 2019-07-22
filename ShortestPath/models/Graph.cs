@@ -25,7 +25,7 @@ namespace ShortestPath.models
 
             nodes.Add(source);
 
-            while (nodes.Count > 0)
+            while (!nodes.IsEmpty())
             {
                 Node node = nodes.Pop();
 

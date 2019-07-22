@@ -14,5 +14,9 @@ namespace ShortestPath.models
             dictionary.Remove(first.Key);
             return first.Value;
         }
+        public bool IsEmpty()
+        {
+            return dictionary.Count == 0;
+        }
     }
 }
