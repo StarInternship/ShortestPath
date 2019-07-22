@@ -4,8 +4,9 @@ namespace ShortestPath.models
 {
     public class Path : LinkedList<Edge>
     {
-        public static Path NOT_FOUND { get; } = new Path() { Distance = double.MaxValue };
         public double Distance { get; private set; }
+
+        public void Add(Edge edge) => AddLast(edge);
 
         public new void AddFirst(Edge edge)
         {
