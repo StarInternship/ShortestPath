@@ -20,7 +20,7 @@ namespace ShortestPath.models
 
         public void AddEdge(int from, int to, double weight) => GetNode(from).AddEgde(new Edge(from, to, weight));
 
-        public Path FindPath(int src,int dest)
+        public Path FindPath(int src, int dest)
         {
             return FindPath(GetNode(src), GetNode(dest));
         }
@@ -56,29 +56,21 @@ namespace ShortestPath.models
         {
             Path path = new Path();
 
-            Edge lastEdge = target.LastInEdge;
-            if (lastEdge == null) return Path.NOT_FOUND;
-            AddEdgesToPath(source, path, lastEdge);
             return path;
         }
 
-        private void AddEdgesToPath(Node source, Path path, Edge lastEdge)
-        {
-            while (lastEdge.From != source.Index)
-            {
-                path.AddFirst(lastEdge);
-                lastEdge = GetNode(lastEdge.From).LastInEdge;
-            }
-            path.AddFirst(lastEdge);
-        }
 
         private void UpdateEdgeDestination(Node target, PriorityQueue currentNodes, Node node, Edge edge)
         {
-            if (PosiblePath(target, node, edge) && IsAShorterPath(node, edge))
+            if (PosiblePath(target, node, edge))
             {
-                currentNodes.Add(GetNode(edge.To));
-                GetNode(edge.To).Distance = node.Distance + edge.Weight;
-                GetNode(edge.To).LastInEdge = edge;
+                if (IsAShorterPath(node, edge)) {
+                    currentNodes.Add(GetNode(edge.To));
+                    GetNode(edge.To).ClearAddLastEdge(edge , node.Distance + edge.Weight);
+                }
+                if (IsEqualPath(node, edge)) {
+                    GetNode(edge.To).AddEqualPath(edge);
+                }
             }
         }
 
@@ -87,6 +79,10 @@ namespace ShortestPath.models
         {
             return node.Distance + edge.Weight < GetNode(edge.To).Distance;
 
+        }
+        private bool IsEqualPath(Node node, Edge edge)
+        {
+            return node.Distance + edge.Weight == GetNode(edge.To).Distance;
         }
 
         // if we already found a shorter path to target, it returns false
