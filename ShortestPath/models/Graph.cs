@@ -18,7 +18,7 @@ namespace ShortestPath.models
 
         public Node GetNode(int index) => nodes[index];
 
-        public void AddEdge(int from, int to, double weight) => GetNode(from).Outs.AddLast(new Edge(from, to, weight));
+        public void AddEdge(int from, int to, double weight) => GetNode(from).AddEgde(new Edge(from, to, weight));
 
         public Path FindePath(Node source, Node target)
         {
@@ -34,10 +34,7 @@ namespace ShortestPath.models
                 if (node.Visited) continue;
                 node.Visited = true;
 
-                foreach (Edge edge in node.Outs)
-                {
-                    UpdateEdgeDestination(target, currentNodes, node, edge);
-                }
+                node.Outs.ForEach(edge => UpdateEdgeDestination(target, currentNodes, node, edge));
             }
             return CreatePath(source, target);
         }
