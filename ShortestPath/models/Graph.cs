@@ -36,12 +36,7 @@ namespace ShortestPath.models
 
                 foreach (Edge edge in node.Outs)
                 {
-                    if (PosiblePath(target, node, edge) && IsAShorterPath(node, edge))
-                    {
-                        currentNodes.Add(GetNode(edge.To));
-                        GetNode(edge.To).Distance = node.Distance + edge.Weight;
-                        GetNode(edge.To).LastInEdge = edge;
-                    }
+                    UpdateEdgeDestination(target, currentNodes, node, edge);
                 }
             }
             return CreatePath(source, target);
@@ -67,6 +62,16 @@ namespace ShortestPath.models
                 lastEdge = GetNode(lastEdge.From).LastInEdge;
             }
             return path;
+        }
+
+        private void UpdateEdgeDestination(Node target, PriorityQueue currentNodes, Node node, Edge edge)
+        {
+            if (PosiblePath(target, node, edge) && IsAShorterPath(node, edge))
+            {
+                currentNodes.Add(GetNode(edge.To));
+                GetNode(edge.To).Distance = node.Distance + edge.Weight;
+                GetNode(edge.To).LastInEdge = edge;
+            }
         }
 
         // this path is a shorter path to edge.to?
