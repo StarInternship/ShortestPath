@@ -2,11 +2,11 @@
 {
     public class Edge
     {
-        public Node From { get; }
-        public Node To { get; }
+        public int From { get; }
+        public int To { get; }
         public double Weight { get; }
 
-        public Edge(Node from, Node to, double weight)
+        public Edge(int from, int to, double weight)
         {
             From = from;
             To = to;

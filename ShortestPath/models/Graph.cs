@@ -17,6 +17,8 @@ namespace ShortestPath.models
 
         public Node GetNode(int index) => nodes[index];
 
+    
+
         public Path FindePath(Node source, Node target)
         {
             source.Distance = 0;
@@ -34,21 +36,21 @@ namespace ShortestPath.models
 
                 foreach (Edge edge in node.Outs)
                 {
-                    if (target.Distance > node.Distance + edge.Weight && node.Distance + edge.Weight < edge.To.Distance)
+                    if (target.Distance > node.Distance + edge.Weight && node.Distance + edge.Weight < GetNode(edge.To).Distance)
                     {
-                        nodes.Add(edge.To);
-                        edge.To.Distance = node.Distance + edge.Weight;
-                        edge.To.LastInEdge = edge;
+                        nodes.Add(GetNode(edge.To));
+                        GetNode(edge.To).Distance = node.Distance + edge.Weight;
+                        GetNode(edge.To).LastInEdge = edge;
                     }
                 }
             }
             Path path = new Path();
 
             Edge lastEdge = target.LastInEdge;
-            while (lastEdge.From.Index != source.Index)
+            while (GetNode(lastEdge.From).Index != source.Index)
             {
                 path.Add(lastEdge);
-                lastEdge = lastEdge.From.LastInEdge;
+                lastEdge = GetNode(lastEdge.From).LastInEdge;
             }
             return path;
         }
