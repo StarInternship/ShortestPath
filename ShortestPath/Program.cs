@@ -12,9 +12,15 @@ namespace ShortestPath
         static void Main(string[] args)
         {
             Graph graph = new GraphReader().Read(@"C:\Graph\hadi");
-            Path path = graph.FindePath(graph.GetNode(1), graph.GetNode(4));
-            Console.WriteLine(path.Distance);
-            Console.ReadLine();
+            while (true)
+            {
+                Console.Write("from: ");
+                int src = int.Parse(Console.ReadLine());
+                Console.Write("dest: ");
+                int dest = int.Parse(Console.ReadLine());
+                var path = graph.FindPath(src, dest);
+                Console.WriteLine(path.Distance);
+            }
         }
     }
 }
