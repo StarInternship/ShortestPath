@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ShortestPath.models
 {
@@ -54,21 +54,46 @@ namespace ShortestPath.models
 
         private List<Path> CreatePaths(Node source, Node target)
         {
-            List<Path> path = new List<Path>();
+            var result = new List<Path>();
+            var currentState = new LinkedList<Path>();
 
-            return path;
+            target.LastInEdges.ForEach(edge => currentState.AddLast(new Path() { edge }));
+
+            while (currentState.Count > 0)
+            {
+                Path path = currentState.First();
+                currentState.RemoveFirst();
+
+                Edge firstEdge = path.First();
+                Node firstNode = GetNode(firstEdge.From);
+                if (firstNode.Equals(source))
+                {
+                    result.Add(path);
+                } else
+                {
+                    firstNode.LastInEdges.ForEach(edge =>
+                    {
+                        Path newPath = new Path(path);
+                        newPath.AddFirst(edge);
+                        currentState.AddLast(newPath);
+                    });
+                }
+            }
+
+            return result;
         }
-
 
         private void UpdateEdgeDestination(Node target, PriorityQueue currentNodes, Node node, Edge edge)
         {
             if (PosiblePath(target, node, edge))
             {
-                if (IsAShorterPath(node, edge)) {
+                if (IsAShorterPath(node, edge))
+                {
                     currentNodes.Add(GetNode(edge.To));
-                    GetNode(edge.To).RecreateInEdges(edge , node.Distance + edge.Weight);
+                    GetNode(edge.To).RecreateInEdges(edge, node.Distance + edge.Weight);
                 }
-                if (IsEqualPath(node, edge)) {
+                if (IsEqualPath(node, edge))
+                {
                     GetNode(edge.To).AddInEdge(edge);
                 }
             }

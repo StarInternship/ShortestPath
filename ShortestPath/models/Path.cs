@@ -4,6 +4,14 @@ namespace ShortestPath.models
 {
     public class Path : LinkedList<Edge>
     {
+        public Path() : base()
+        {
+        }
+
+        public Path(IEnumerable<Edge> collection) : base(collection)
+        {
+        }
+
         public double Distance { get; private set; }
 
         public void Add(Edge edge) => AddLast(edge);

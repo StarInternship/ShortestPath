@@ -13,7 +13,7 @@ namespace ShortestPath.models.Tests
             graph.AddEdge(0, 1, 1);
             graph.AddEdge(1, 2, 2);
             graph.AddEdge(1, 3, 3);
-            graph.AddEdge(2, 3, 2);
+            graph.AddEdge(2, 3, 1);
 
             var actual = graph.FindPath(graph.GetNode(0), graph.GetNode(3));
             var expected = new List<Path>
