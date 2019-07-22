@@ -69,7 +69,7 @@ namespace ShortestPath.models
                 path.AddFirst(lastEdge);
                 lastEdge = GetNode(lastEdge.From).LastInEdge;
             }
-            path.Add(lastEdge);
+            path.AddFirst(lastEdge);
         }
 
         private void UpdateEdgeDestination(Node target, PriorityQueue currentNodes, Node node, Edge edge)
