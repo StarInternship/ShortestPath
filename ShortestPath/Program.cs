@@ -29,10 +29,10 @@ namespace ShortestPath
                 else
                 {
                     Console.WriteLine("find a path in " + stopwatch.ElapsedMilliseconds + " ms with distance of " + path.Distance);
-                    Console.Write("(" + source + ")");
+                    Console.Write("[" + source + "]");
                     foreach (Edge edge in path)
                     {
-                        Console.Write(" -" + edge.Weight + "-> (" + edge.To + ")");
+                        Console.Write(" -(" + edge.Weight + ")-> [" + edge.To + "]");
                     }
                     Console.WriteLine();
                 }
