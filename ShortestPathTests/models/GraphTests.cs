@@ -29,17 +29,13 @@ namespace ShortestPath.models.Tests
                     }
                 };
 
-                if (expected.Count != actual.Count)
-                {
-                    Assert.Fail();
-                }
+                Assert.AreEqual(expected.Count, actual.Count);
 
                 for (int i = 0; i < expected.Count; i++)
                 {
                     CollectionAssert.AreEqual(expected[i], actual[i]);
                 }
             }
-
 
             {
                 Graph graph = new Graph(5);
@@ -67,16 +63,39 @@ namespace ShortestPath.models.Tests
                     }
                 };
 
-                if (expected.Count != actual.Count)
-                {
-                    Assert.Fail();
-                }
+                Assert.AreEqual(expected.Count, actual.Count);
 
                 for (int i = 0; i < expected.Count; i++)
                 {
                     CollectionAssert.AreEqual(expected[i], actual[i]);
                 }
             }
+
+            {
+                Graph graph = new Graph(5);
+                graph.AddEdge(0, 2, 1);
+                graph.AddEdge(0, 1, 10);
+                graph.AddEdge(2, 1, 1);
+                graph.AddEdge(1, 3, 1);
+                graph.AddEdge(3, 4, 20);
+
+                var actual = graph.FindPath(0, 4);
+                var expected = new List<Path>
+                {
+                    new Path
+                    {
+                        graph.GetNode(0).Outs[0], graph.GetNode(2).Outs[0], graph.GetNode(1).Outs[0], graph.GetNode(3).Outs[0]
+                    }
+                };
+
+                Assert.AreEqual(expected.Count, actual.Count);
+
+                for (int i = 0; i < expected.Count; i++)
+                {
+                    CollectionAssert.AreEqual(expected[i], actual[i]);
+                }
+            }
+
         }
     }
 }
