@@ -23,22 +23,22 @@ namespace ShortestPath.models
         {
             source.Distance = 0;
 
-            PriorityQueue nodes = new PriorityQueue();
+            PriorityQueue borderNodes = new PriorityQueue();
 
-            nodes.Add(source);
+            borderNodes.Add(source);
 
-            while (!nodes.IsEmpty())
+            while (!borderNodes.IsEmpty())
             {
-                Node node = nodes.Pop();
+                Node node = borderNodes.Pop();
 
                 if (node.Visited) continue;
                 node.Visited = true;
 
                 foreach (Edge edge in node.Outs)
                 {
-                    if (target.Distance > node.Distance + edge.Weight && node.Distance + edge.Weight < GetNode(edge.To).Distance)
+                    if (PosiblePath(target, node, edge) && IsAShorterPath(node, edge))
                     {
-                        nodes.Add(GetNode(edge.To));
+                        borderNodes.Add(GetNode(edge.To));
                         GetNode(edge.To).Distance = node.Distance + edge.Weight;
                         GetNode(edge.To).LastInEdge = edge;
                     }
@@ -53,6 +53,19 @@ namespace ShortestPath.models
                 lastEdge = GetNode(lastEdge.From).LastInEdge;
             }
             return path;
+        }
+
+        // this path is a shorter path to edge.to?
+        private bool IsAShorterPath(Node node, Edge edge)
+        {
+            return node.Distance + edge.Weight < GetNode(edge.To).Distance;
+            
+        }
+
+        // if we already found a shorter path to target, it returns false
+        private static bool PosiblePath(Node target, Node node, Edge edge)
+        {
+            return target.Distance > node.Distance + edge.Weight;
         }
     }
 }
