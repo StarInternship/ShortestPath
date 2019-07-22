@@ -44,7 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="models\Edge.cs" />
+    <Compile Include="models\Graph.cs" />
     <Compile Include="models\Node.cs" />
+    <Compile Include="models\Path.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
