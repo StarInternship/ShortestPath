@@ -18,14 +18,13 @@ namespace ShortestPath.models
 
         public Node GetNode(int index) => nodes[index];
 
-        public void AddEdge(int from, int to, double weight) => GetNode(from).AddEgde(new Edge(GetNode(from), GetNode(to), weight));
+        public void AddEdge(int from, int to, double weight) => AddEdge(GetNode(from), GetNode(to), weight);
 
-        public List<Path> FindPath(int src, int dest)
-        {
-            return FindPath(GetNode(src), GetNode(dest));
-        }
+        private void AddEdge(Node from, Node to, double weight) => from.AddEgde(new Edge(from, to, weight));
 
-        public List<Path> FindPath(Node source, Node target)
+        public List<Path> FindPath(int source, int destination) => FindPath(GetNode(source), GetNode(destination));
+
+        private List<Path> FindPath(Node source, Node destination)
         {
             Reset();
             source.Distance = 0;
@@ -40,9 +39,11 @@ namespace ShortestPath.models
                     continue;
                 node.Visited = true;
 
-                node.Outs.ForEach(edge => UpdateEdgeDestination(target, currentNodes, node, edge));
+                node.Outs.ForEach(
+                    edge => UpdateEdgeDestination(destination, currentNodes, node, edge)
+                );
             }
-            return CreatePaths(source, target);
+            return CreatePaths(source, destination);
         }
 
         private void Reset()
@@ -73,16 +74,21 @@ namespace ShortestPath.models
                 }
                 else
                 {
-                    firstNode.LastInEdges.ForEach(edge =>
-                    {
-                        Path newPath = new Path(path);
-                        newPath.AddFirst(edge);
-                        currentState.AddLast(newPath);
-                    });
+                    ExpandPath(currentState, path, firstNode);
                 }
             }
 
             return result;
+        }
+
+        private static void ExpandPath(LinkedList<Path> currentState, Path path, Node firstNode)
+        {
+            firstNode.LastInEdges.ForEach(edge =>
+            {
+                Path newPath = new Path(path);
+                newPath.AddFirst(edge);
+                currentState.AddLast(newPath);
+            });
         }
 
         private void UpdateEdgeDestination(Node target, PriorityQueue currentNodes, Node node, Edge edge)
