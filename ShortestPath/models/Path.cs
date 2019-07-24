@@ -16,7 +16,7 @@ namespace ShortestPath.models
             nodeSet = new HashSet<Node>(path.nodeSet);
         }
 
-        public Path(Node target) => nodeSet = new HashSet<Node>() { target };
+        public Path(Node initialNode) : base() => nodeSet = new HashSet<Node>() { initialNode };
 
         public void Add(Edge edge) => AddLast(edge);
 
@@ -30,6 +30,7 @@ namespace ShortestPath.models
         public new void AddLast(Edge edge)
         {
             base.AddLast(edge);
+            nodeSet.Add(edge.To);
             Distance += edge.Weight;
         }
 

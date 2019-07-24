@@ -30,11 +30,18 @@ namespace ShortestPath.models
             LastInEdges.Add(edge);
         }
 
-        public void RecreateInEdges(Edge edge , double newDistance)
+        public void RecreateInEdges(Edge edge, double newDistance)
         {
             LastInEdges.Clear();
             LastInEdges.Add(edge);
             Distance = newDistance;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (this == obj) return true;
+            if (obj == null || !(obj is Node)) return false;
+            return Index.Equals(((Node)obj).Index);
         }
     }
 }

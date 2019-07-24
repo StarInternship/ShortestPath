@@ -66,8 +66,6 @@ namespace ShortestPath.models
         }
         private void AddEdge(Node from, Node to, double weight) => from.AddEgde(new Edge(from, to, weight));
 
-        public List<Path> FindPath(string source, string destination) => FindPath(GetNode(source), GetNode(destination));
-
         private List<Path> FindPath(Node source, Node destination)
         {
             Reset();

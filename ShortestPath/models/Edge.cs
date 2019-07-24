@@ -12,5 +12,14 @@
             To = to;
             Weight = weight;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (this == obj) return true;
+            if (obj == null || !(obj is Edge)) return false;
+
+            var other = (Edge)obj;
+            return From.Equals(other.From) && To.Equals(other.To) && Weight == other.Weight;
+        }
     }
 }
