@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ShortestPath.models
@@ -36,11 +37,11 @@ namespace ShortestPath.models
         /// <param name="dest">destindation</param>
         /// <param name="findAllPath">if true method returns all paths from source to destination</param>
         /// <returns>expected subgraph</returns>
-        public List<Path> FindPaths(string src, string dest, bool findAllPath) => FindPaths(GetNode(src), GetNode(dest), findAllPath);
+        public Graph FindPaths(string src, string dest, bool findAllPath) => FindPaths(GetNode(src), GetNode(dest), findAllPath);
 
         private void AddEdge(Node from, Node to, double weight) => from.AddEdge(new Edge(from, to, weight));
 
-        private List<Path> FindPaths(Node source, Node destination, bool findAllPath)
+        private Graph FindPaths(Node source, Node destination, bool findAllPath)
         {
             Reset();
             source.Distance = 0;
@@ -59,7 +60,7 @@ namespace ShortestPath.models
                     edge => UpdateEdgeDestination(destination, currentNodes, node, edge, findAllPath)
                 );
             }
-            return CreatePaths(source, destination);
+            return CreateResultSubgraph(destination);
         }
 
         private void UpdateEdgeDestination(Node target, PriorityQueue currentNodes, Node node, Edge edge, bool findAllPath)
@@ -106,41 +107,33 @@ namespace ShortestPath.models
             }
         }
 
-        private List<Path> CreatePaths(Node source, Node target)
+        private Graph CreateResultSubgraph(Node target)
         {
-            var result = new List<Path>();
-            var currentState = new LinkedList<Path>();
+            var subgraph = new Graph();
+            var currentNodes = new HashSet<Node> { target };
 
-            target.LastInEdges.ForEach(edge => currentState.AddLast(new Path(target) { edge }));
-
-            while (currentState.Count > 0)
+            while (currentNodes.Count > 0)
             {
-                Path path = currentState.First();
-                currentState.RemoveFirst();
+                var node = currentNodes.First();
+                currentNodes.Remove(node);
 
-                Edge firstEdge = path.First();
-                Node firstNode = firstEdge.From;
-                if (firstNode.Equals(source))
-                {
-                    result.Add(path);
-                }
-                else
-                {
-                    ExpandPath(currentState, path, firstNode);
-                }
+                if (subgraph.Visited(node.Index)) continue;
+                subgraph.GetNode(node.Index).Visited = true;
+
+                node.LastInEdges.ForEach(edge =>
+                { 
+                    subgraph.AddEdge(edge.From.Index, edge.To.Index, edge.Weight);
+                    currentNodes.Add(edge.From);
+                });
             }
-            return result;
+
+            return new Graph();
         }
 
-        private static void ExpandPath(LinkedList<Path> currentState, Path path, Node firstNode)
+        private bool Visited(string index)
         {
-            firstNode.LastInEdges.ForEach(edge =>
-            {
-                if (path.ContainsNode(edge.From)) return;
-                Path newPath = new Path(path);
-                newPath.AddFirst(edge);
-                currentState.AddLast(newPath);
-            });
+            if (!nodes.ContainsKey(index)) return false;
+            return nodes[index].Visited;
         }
     }
 }
