@@ -6,9 +6,11 @@ namespace ShortestPath
 {
     static class Program
     {
+      public static Stopwatch stopwatch { get; set; }
+
         static void Main(string[] args)
         {
-            Stopwatch stopwatch = new Stopwatch();
+            stopwatch = new Stopwatch();
             stopwatch.Start();
             Graph graph = new GraphReader().Read(@"../../../TestFiles/hossein_test");
             Console.WriteLine("graph read done. duration: " + stopwatch.ElapsedMilliseconds + " ms.");
