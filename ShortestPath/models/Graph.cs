@@ -31,6 +31,7 @@ namespace ShortestPath.models
             PriorityQueue currentNodes = new PriorityQueue();
             currentNodes.Add(source);
 
+
             while (!currentNodes.IsEmpty())
             {
                 Node node = currentNodes.Pop();
@@ -39,10 +40,13 @@ namespace ShortestPath.models
                     continue;
 
                 node.Visited = true;
-
+                        
                 node.Outs.ForEach(edge => {
                     edge.To.AddInEdge(edge);
-                    currentNodes.Add(edge.To);
+                    if (!edge.To.Visited)
+                    {
+                        currentNodes.Add(edge.To);
+                    }
                 });
             }
             return CreatePaths(source, target);
