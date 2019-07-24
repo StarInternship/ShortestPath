@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace ShortestPath.models
@@ -8,6 +7,11 @@ namespace ShortestPath.models
     {
         private readonly Dictionary<string, Node> nodes = new Dictionary<string, Node>();
 
+        /// <summary>
+        /// create node if does not exist. and returns the node.
+        /// </summary>
+        /// <param name="index">index of the node</param>
+        /// <returns>Node</returns>
         public Node GetNode(string index)
         {
             if (!nodes.ContainsKey(index))
@@ -17,44 +21,20 @@ namespace ShortestPath.models
             return nodes[index];
         }
 
+        /// <summary>
+        /// add an edge to graph
+        /// </summary>
+        /// <param name="from">edge strting node index, if does'n exists, it will be created</param>
+        /// <param name="to">edge ending node index, if does'n exists, it will be created</param>
+        /// <param name="weight">wheight of edge</param>
         public void AddEdge(string from, string to, double weight) => AddEdge(GetNode(from), GetNode(to), weight);
 
-        public List<Path> FindAllPaths(string source, string target) => FindAllPaths(GetNode(source), GetNode(target));
-
-        public List<Path> FindAllPaths(Node source, Node target)
-        {
-            Reset();
-            source.Distance = 0;
-            PriorityQueue currentNodes = new PriorityQueue();
-            currentNodes.Add(source);
-
-
-            while (!currentNodes.IsEmpty())
-            {
-                Node node = currentNodes.Pop();
-
-                if (node.Visited)
-                    continue;
-
-                node.Visited = true;
-                        
-                node.Outs.ForEach(edge => {
-                    if (!node.Equals(edge.To))
-                    {
-                        edge.To.AddInEdge(edge);
-                        edge.To.Distance = node.Distance + edge.Weight;
-
-                        if (!edge.To.Visited)
-                        {
-                            currentNodes.Add(edge.To);
-                        }
-                    }
-                });
-            }
-
-            return CreatePaths(source, target);
-        }
-
+        /// <summary>
+        /// finds shortest paths between src and dest
+        /// </summary>
+        /// <param name="src">source</param>
+        /// <param name="dest">destination</param>
+        /// <returns>all shortest paths</returns>
         public List<Path> FindShortestPaths(string src, string dest) => FindShortestPaths(GetNode(src), GetNode(dest));
 
         private void AddEdge(Node from, Node to, double weight) => from.AddEgde(new Edge(from, to, weight));
