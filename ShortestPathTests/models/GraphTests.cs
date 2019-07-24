@@ -20,11 +20,14 @@ namespace ShortestPath.models.Tests
                 {
                     new Path
                     {
-                        graph.GetNode("0").Outs[0], graph.GetNode("1").Outs[1]
+                        graph.GetNode("1").Outs[1],
+                        graph.GetNode("0").Outs[0]
                     },
                     new Path
                     {
-                        graph.GetNode("0").Outs[0], graph.GetNode("1").Outs[0], graph.GetNode("2").Outs[0]
+                        graph.GetNode("2").Outs[0],
+                        graph.GetNode("1").Outs[0],
+                        graph.GetNode("0").Outs[0]
                     }
                 };
 
@@ -52,15 +55,20 @@ namespace ShortestPath.models.Tests
                 {
                     new Path
                     {
-                        graph.GetNode("0").Outs[2], graph.GetNode("3").Outs[0]
+                        graph.GetNode("3").Outs[0],
+                        graph.GetNode("0").Outs[2]
                     },
                     new Path
                     {
-                        graph.GetNode("0").Outs[0], graph.GetNode("1").Outs[0], graph.GetNode("3").Outs[0]
+                        graph.GetNode("3").Outs[0],
+                        graph.GetNode("1").Outs[0],
+                        graph.GetNode("0").Outs[0]
                     },
                     new Path
                     {
-                        graph.GetNode("0").Outs[1], graph.GetNode("2").Outs[0], graph.GetNode("3").Outs[0]
+                        graph.GetNode("3").Outs[0],
+                        graph.GetNode("2").Outs[0],
+                        graph.GetNode("0").Outs[1]
                     }
                 };
 
@@ -87,10 +95,10 @@ namespace ShortestPath.models.Tests
             {
                 new Path
                 {
-                    new Edge(graph.GetNode("0"), graph.GetNode("2"), 1),
-                    new Edge(graph.GetNode("2"), graph.GetNode("1"), 1),
+                    new Edge(graph.GetNode("3"), graph.GetNode("4"), 20),
                     new Edge(graph.GetNode("1"), graph.GetNode("3"), 1),
-                    new Edge(graph.GetNode("3"), graph.GetNode("4"), 20)
+                    new Edge(graph.GetNode("2"), graph.GetNode("1"), 1),
+                    new Edge(graph.GetNode("0"), graph.GetNode("2"), 1),
                 }
             };
 
@@ -123,23 +131,23 @@ namespace ShortestPath.models.Tests
             {
                 new Path
                 {
-                    new Edge(graph.GetNode("1"), graph.GetNode("4"), 1),
+                    new Edge(graph.GetNode("6"), graph.GetNode("7"), 1),
                     new Edge(graph.GetNode("4"), graph.GetNode("6"), 1),
-                    new Edge(graph.GetNode("6"), graph.GetNode("7"), 1)
-                },
-                new Path
-                {
-                    new Edge(graph.GetNode("1"), graph.GetNode("2"), 1),
-                    new Edge(graph.GetNode("2"), graph.GetNode("3"), 1),
-                    new Edge(graph.GetNode("3"), graph.GetNode("6"), 1),
-                    new Edge(graph.GetNode("6"), graph.GetNode("7"), 1)
-                },
-                new Path
-                {
                     new Edge(graph.GetNode("1"), graph.GetNode("4"), 1),
-                    new Edge(graph.GetNode("4"), graph.GetNode("5"), 1),
+                },
+                new Path
+                {
+                    new Edge(graph.GetNode("6"), graph.GetNode("7"), 1),
+                    new Edge(graph.GetNode("3"), graph.GetNode("6"), 1),
+                    new Edge(graph.GetNode("2"), graph.GetNode("3"), 1),
+                    new Edge(graph.GetNode("1"), graph.GetNode("2"), 1),
+                },
+                new Path
+                {
+                    new Edge(graph.GetNode("6"), graph.GetNode("7"), 1),
                     new Edge(graph.GetNode("5"), graph.GetNode("6"), 1),
-                    new Edge(graph.GetNode("6"), graph.GetNode("7"), 1)
+                    new Edge(graph.GetNode("4"), graph.GetNode("5"), 1),
+                    new Edge(graph.GetNode("1"), graph.GetNode("4"), 1),
                 },
             };
 
@@ -181,26 +189,26 @@ namespace ShortestPath.models.Tests
                 },
                 new Path
                 {
-                    new Edge(graph.GetNode("0"), graph.GetNode("2"), 1),
                     new Edge(graph.GetNode("2"), graph.GetNode("1"), 1),
-                },
-                new Path
-                {
                     new Edge(graph.GetNode("0"), graph.GetNode("2"), 1),
-                    new Edge(graph.GetNode("2"), graph.GetNode("3"), 1),
-                    new Edge(graph.GetNode("3"), graph.GetNode("1"), 1),
                 },
                 new Path
                 {
-                    new Edge(graph.GetNode("0"), graph.GetNode("3"), 1),
                     new Edge(graph.GetNode("3"), graph.GetNode("1"), 1),
+                    new Edge(graph.GetNode("0"), graph.GetNode("3"), 1),
                 },
                 new Path
                 {
-                    new Edge(graph.GetNode("0"), graph.GetNode("3"), 1),
+                    new Edge(graph.GetNode("2"), graph.GetNode("1"), 1),
                     new Edge(graph.GetNode("3"), graph.GetNode("2"), 1),
-                    new Edge(graph.GetNode("2"), graph.GetNode("1"), 1),
+                    new Edge(graph.GetNode("0"), graph.GetNode("3"), 1),
                 },
+                new Path
+                {
+                    new Edge(graph.GetNode("3"), graph.GetNode("1"), 1),
+                    new Edge(graph.GetNode("2"), graph.GetNode("3"), 1),
+                    new Edge(graph.GetNode("0"), graph.GetNode("2"), 1),
+                }
             };
 
             Assert.AreEqual(expected.Count, actual.Count);

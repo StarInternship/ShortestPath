@@ -18,19 +18,12 @@ namespace ShortestPath.models
 
         public Path(Node initialNode) : base() => nodeSet = new HashSet<Node>() { initialNode };
 
-        public void Add(Edge edge) => AddLast(edge);
+        public void Add(Edge edge) => AddFirst(edge);
 
         public new void AddFirst(Edge edge)
         {
             base.AddFirst(edge);
             nodeSet.Add(edge.From);
-            Distance += edge.Weight;
-        }
-
-        public new void AddLast(Edge edge)
-        {
-            base.AddLast(edge);
-            nodeSet.Add(edge.To);
             Distance += edge.Weight;
         }
 

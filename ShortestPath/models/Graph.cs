@@ -51,7 +51,6 @@ namespace ShortestPath.models
                     }
                 });
             }
-            Console.WriteLine("set nodes in " + Program.stopwatch.ElapsedMilliseconds + "  ms");
 
             return CreatePaths(source, target);
         }
@@ -79,7 +78,6 @@ namespace ShortestPath.models
                     edge => UpdateEdgeDestination(destination, currentNodes, node, edge)
                 );
             }
-            Console.WriteLine("set nodes in " + Program.stopwatch.ElapsedMilliseconds + "  ms");
             return CreatePaths(source, destination);
         }
 
