@@ -44,10 +44,15 @@ namespace ShortestPath.models
                 node.Visited = true;
                         
                 node.Outs.ForEach(edge => {
-                    edge.To.AddInEdge(edge);
-                    if (!edge.To.Visited)
+                    if (!node.Equals(edge.To))
                     {
-                        currentNodes.Add(edge.To);
+                        edge.To.AddInEdge(edge);
+                        edge.To.Distance = node.Distance + edge.Weight;
+
+                        if (!edge.To.Visited)
+                        {
+                            currentNodes.Add(edge.To);
+                        }
                     }
                 });
             }
