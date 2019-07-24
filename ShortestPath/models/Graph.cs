@@ -21,6 +21,35 @@ namespace ShortestPath.models
             AddEdge(GetNode(from), GetNode(to), weight);
         }
 
+        public List<Path> FindAllPaths(Node source, Node target)
+        {
+            Reset();
+            source.Distance = 0;
+            PriorityQueue currentNodes = new PriorityQueue();
+            currentNodes.Add(source);
+
+            while (!currentNodes.IsEmpty())
+            {
+                Node node = currentNodes.Pop();
+
+                if (node.Visited)
+                    continue;
+
+                node.Visited = true;
+
+                node.Outs.ForEach(edge => {
+                    edge.To.AddInEdge(edge);
+                    currentNodes.Add(edge.To);
+                });
+            }
+            return CreatePaths(source, target);
+        }
+
+
+        public List<Path> FindShortestPaths(int src, int dest)
+        {
+            return FindPath(GetNode(src), GetNode(dest));
+        }
         private void AddEdge(Node from, Node to, double weight) => from.AddEgde(new Edge(from, to, weight));
 
         public List<Path> FindPath(string source, string destination) => FindPath(GetNode(source), GetNode(destination));
