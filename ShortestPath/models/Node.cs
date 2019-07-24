@@ -20,7 +20,7 @@ namespace ShortestPath.models
             LastInEdges = new List<Edge>();
         }
 
-        public void AddEgde(Edge edge)
+        public void AddEdge(Edge edge)
         {
             Outs.Add(edge);
         }

@@ -22,7 +22,7 @@ namespace ShortestPath
                 string destination = Console.ReadLine();
 
                 stopwatch.Restart();
-                var paths = graph.FindShortestPaths(source, destination);
+                var paths = graph.FindPaths(source, destination , false);
 
                 if (paths.Count == 0)
                 {

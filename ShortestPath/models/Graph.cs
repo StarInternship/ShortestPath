@@ -33,13 +33,14 @@ namespace ShortestPath.models
         /// finds shortest paths between src and dest
         /// </summary>
         /// <param name="src">source</param>
-        /// <param name="dest">destination</param>
-        /// <returns>all shortest paths</returns>
-        public List<Path> FindShortestPaths(string src, string dest) => FindShortestPaths(GetNode(src), GetNode(dest));
+        /// <param name="dest">destindation</param>
+        /// <param name="findAllPath">if true method returns all paths from source to destination</param>
+        /// <returns>expected subgraph</returns>
+        public List<Path> FindPaths(string src, string dest, bool findAllPath) => FindPaths(GetNode(src), GetNode(dest), findAllPath);
 
-        private void AddEdge(Node from, Node to, double weight) => from.AddEgde(new Edge(from, to, weight));
+        private void AddEdge(Node from, Node to, double weight) => from.AddEdge(new Edge(from, to, weight));
 
-        private List<Path> FindShortestPaths(Node source, Node destination)
+        private List<Path> FindPaths(Node source, Node destination, bool findAllPath)
         {
             Reset();
             source.Distance = 0;
@@ -55,11 +56,47 @@ namespace ShortestPath.models
                 node.Visited = true;
 
                 node.Outs.ForEach(
-                    edge => UpdateEdgeDestination(destination, currentNodes, node, edge)
+                    edge => UpdateEdgeDestination(destination, currentNodes, node, edge, findAllPath)
                 );
             }
             return CreatePaths(source, destination);
         }
+
+        private void UpdateEdgeDestination(Node target, PriorityQueue currentNodes, Node node, Edge edge, bool findAllPath)
+        {
+            if (findAllPath)
+            {
+                edge.To.AddInEdge(edge);
+                if (!edge.To.Visited)
+                {
+                    currentNodes.Add(edge.To);
+                }
+                if (IsAShorterPath(node, edge))
+                {
+                    edge.To.Distance = node.Distance + edge.Weight;
+                }
+            }
+            else if (PosiblePath(target, node, edge))
+            {
+                if (IsAShorterPath(node, edge))
+                {
+                    edge.To.RecreateInEdges(edge, node.Distance + edge.Weight);
+                    currentNodes.Add(edge.To);
+                }
+                else if (IsEqualPath(node, edge))
+                {
+                    edge.To.AddInEdge(edge);
+                }
+            }
+        }
+
+        // this path is a shorter path to edge.to?
+        private bool IsAShorterPath(Node node, Edge edge) => node.Distance + edge.Weight < edge.To.Distance;
+
+        private bool IsEqualPath(Node node, Edge edge) => node.Distance + edge.Weight == edge.To.Distance;
+
+        // if we already found a shorter path to target, it returns false
+        private static bool PosiblePath(Node target, Node node, Edge edge) => target.Distance >= node.Distance + edge.Weight;
 
         private void Reset()
         {
@@ -105,29 +142,5 @@ namespace ShortestPath.models
                 currentState.AddLast(newPath);
             });
         }
-
-        private void UpdateEdgeDestination(Node target, PriorityQueue currentNodes, Node node, Edge edge)
-        {
-            if (PosiblePath(target, node, edge))
-            {
-                if (IsAShorterPath(node, edge))
-                {
-                    edge.To.RecreateInEdges(edge, node.Distance + edge.Weight);
-                    currentNodes.Add(edge.To);
-                }
-                else if (IsEqualPath(node, edge))
-                {
-                    edge.To.AddInEdge(edge);
-                }
-            }
-        }
-
-        // this path is a shorter path to edge.to?
-        private bool IsAShorterPath(Node node, Edge edge) => node.Distance + edge.Weight < edge.To.Distance;
-
-        private bool IsEqualPath(Node node, Edge edge) => node.Distance + edge.Weight == edge.To.Distance;
-
-        // if we already found a shorter path to target, it returns false
-        private static bool PosiblePath(Node target, Node node, Edge edge) => target.Distance >= node.Distance + edge.Weight;
     }
 }
