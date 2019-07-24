@@ -17,15 +17,9 @@ namespace ShortestPath.models
             return nodes[index];
         }
 
-        public void AddEdge(string from, string to, double weight)
-        {
-            AddEdge(GetNode(from), GetNode(to), weight);
-        }
+        public void AddEdge(string from, string to, double weight) => AddEdge(GetNode(from), GetNode(to), weight);
 
-        public List<Path> FindAllPaths(string source , string target)
-        {
-           return FindAllPaths(GetNode(source), GetNode(target));
-        }
+        public List<Path> FindAllPaths(string source, string target) => FindAllPaths(GetNode(source), GetNode(target));
 
         public List<Path> FindAllPaths(Node source, Node target)
         {
@@ -62,16 +56,11 @@ namespace ShortestPath.models
             return CreatePaths(source, target);
         }
 
+        public List<Path> FindShortestPaths(string src, string dest) => FindShortestPaths(GetNode(src), GetNode(dest));
 
-        public List<Path> FindShortestPaths(string src, string dest)
-        {
-            return FindShortestPath(GetNode(src), GetNode(dest));
-        }
         private void AddEdge(Node from, Node to, double weight) => from.AddEgde(new Edge(from, to, weight));
 
-        public List<Path> FindShortestPath (string source, string destination) => FindShortestPath(GetNode(source), GetNode(destination));
-
-        private List<Path> FindShortestPath(Node source, Node destination)
+        private List<Path> FindShortestPaths(Node source, Node destination)
         {
             Reset();
             source.Distance = 0;
@@ -156,20 +145,11 @@ namespace ShortestPath.models
         }
 
         // this path is a shorter path to edge.to?
-        private bool IsAShorterPath(Node node, Edge edge)
-        {
-            return node.Distance + edge.Weight < edge.To.Distance;
+        private bool IsAShorterPath(Node node, Edge edge) => node.Distance + edge.Weight < edge.To.Distance;
 
-        }
-        private bool IsEqualPath(Node node, Edge edge)
-        {
-            return node.Distance + edge.Weight == edge.To.Distance;
-        }
+        private bool IsEqualPath(Node node, Edge edge) => node.Distance + edge.Weight == edge.To.Distance;
 
         // if we already found a shorter path to target, it returns false
-        private static bool PosiblePath(Node target, Node node, Edge edge)
-        {
-            return target.Distance >= node.Distance + edge.Weight;
-        }
+        private static bool PosiblePath(Node target, Node node, Edge edge) => target.Distance >= node.Distance + edge.Weight;
     }
 }
