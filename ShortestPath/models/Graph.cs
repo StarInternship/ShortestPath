@@ -98,7 +98,7 @@ namespace ShortestPath.models
             var result = new List<Path>();
             var currentState = new LinkedList<Path>();
 
-            target.LastInEdges.ForEach(edge => currentState.AddLast(new Path() { edge }));
+            target.LastInEdges.ForEach(edge => currentState.AddLast(new Path(target) { edge }));
 
             while (currentState.Count > 0)
             {
@@ -124,6 +124,7 @@ namespace ShortestPath.models
         {
             firstNode.LastInEdges.ForEach(edge =>
             {
+                if (path.ContainsNode(edge.From)) return;
                 Path newPath = new Path(path);
                 newPath.AddFirst(edge);
                 currentState.AddLast(newPath);
