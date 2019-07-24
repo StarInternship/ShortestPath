@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace ShortestPath.models
 {
     class GraphReader
     {
+        private static readonly Regex regex = new Regex(@"^(\d+)\D+(\d+)\D+(\d+)$");
+
         public Graph Read(string path)
         {
             if (File.Exists(path))
@@ -17,17 +14,25 @@ namespace ShortestPath.models
                 string[] edges = File.ReadAllLines(path);
                 int n = int.Parse(edges[0]);
                 Graph graph = new Graph(n);
+
                 for (int i = 1; i < edges.Length; i++)
                 {
-                    string[] edgeString = Regex.Split(edges[i], ",");
-                    int src = int.Parse(edgeString[0]);
-                    int dest = int.Parse(edgeString[1]);
-                    int weight = int.Parse(edgeString[2]);
-                    graph.AddEdge(src, dest, weight);
+                    ReadEdge(graph, edges[i]);
                 }
                 return graph;
             }
             return new Graph(0);
+        }
+
+        private static void ReadEdge(Graph graph, string edge)
+        {
+            var groups = regex.Matches(edge)[0].Groups;
+
+            int source = int.Parse(groups[1].ToString());
+            int destination = int.Parse(groups[2].ToString());
+            int weight = int.Parse(groups[3].ToString());
+
+            graph.AddEdge(source, destination, weight);
         }
     }
 }

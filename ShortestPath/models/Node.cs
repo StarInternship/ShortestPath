@@ -36,7 +36,5 @@ namespace ShortestPath.models
             LastInEdges.Add(edge);
             Distance = newDistance;
         }
-
-
     }
 }
