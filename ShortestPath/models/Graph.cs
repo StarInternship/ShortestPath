@@ -6,7 +6,7 @@ namespace ShortestPath.models
 {
     public class Graph
     {
-        private readonly Dictionary<string, Node> nodes = new Dictionary<string, Node>();
+        public Dictionary<string, Node> Nodes { get; } = new Dictionary<string, Node>();
 
         /// <summary>
         /// create node if does not exist. and returns the node.
@@ -15,11 +15,11 @@ namespace ShortestPath.models
         /// <returns>Node</returns>
         public Node GetNode(string index)
         {
-            if (!nodes.ContainsKey(index))
+            if (!Nodes.ContainsKey(index))
             {
-                nodes[index] = new Node(index);
+                Nodes[index] = new Node(index);
             }
-            return nodes[index];
+            return Nodes[index];
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace ShortestPath.models
 
         private void Reset()
         {
-            foreach (Node node in nodes.Values)
+            foreach (Node node in Nodes.Values)
             {
                 node.Reset();
             }
@@ -127,13 +127,13 @@ namespace ShortestPath.models
                 });
             }
 
-            return new Graph();
+            return subgraph;
         }
 
         private bool Visited(string index)
         {
-            if (!nodes.ContainsKey(index)) return false;
-            return nodes[index].Visited;
+            if (!Nodes.ContainsKey(index)) return false;
+            return Nodes[index].Visited;
         }
     }
 }

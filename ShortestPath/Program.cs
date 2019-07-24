@@ -12,7 +12,7 @@ namespace ShortestPath
         {
             stopwatch = new Stopwatch();
             stopwatch.Start();
-            Graph graph = new GraphReader().Read(@"../../../TestFiles/hossein_test");
+            Graph graph = new GraphReader().Read(@"../../../TestFiles/K4.txt");
             Console.WriteLine("graph read done. duration: " + stopwatch.ElapsedMilliseconds + " ms.");
             while (true)
             {
@@ -22,25 +22,13 @@ namespace ShortestPath
                 string destination = Console.ReadLine();
 
                 stopwatch.Restart();
-                var paths = graph.FindPaths(source, destination , false);
+                var result = graph.FindPaths(source, destination , true);
 
-                if (paths.Count == 0)
-                {
-                    Console.WriteLine("not found. time: " + stopwatch.ElapsedMilliseconds + " ms.");
-                }
-                else
-                {
-                    Console.WriteLine("find " + paths.Count + " paths in " + stopwatch.ElapsedMilliseconds + " ms with distance of " + paths[0].Distance);
+                Console.WriteLine("duration: " + stopwatch.ElapsedMilliseconds + " ms. edges: ");
 
-                    paths.ForEach(path =>
-                    {
-                        Console.Write("[" + source + "]");
-                        foreach (Edge edge in path)
-                        {
-                            Console.Write(" -(" + edge.Weight + ")-> [" + edge.To.Index + "]");
-                        }
-                        Console.WriteLine();
-                    });
+                foreach (var node in result.Nodes.Values)
+                {
+                    node.Outs.ForEach(edge => Console.WriteLine(edge));
                 }
             }
         }

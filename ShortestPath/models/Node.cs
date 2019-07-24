@@ -43,5 +43,7 @@ namespace ShortestPath.models
             if (obj == null || !(obj is Node)) return false;
             return Index.Equals(((Node)obj).Index);
         }
+
+        public override string ToString() => Index;
     }
 }
