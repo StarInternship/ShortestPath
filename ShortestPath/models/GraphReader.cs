@@ -5,7 +5,7 @@ namespace ShortestPath.models
 {
     class GraphReader
     {
-        private static readonly Regex regex = new Regex(@"^(\d+)\D+(\d+)\D+(\d+.?\d*)$");
+        private static readonly Regex regex = new Regex(@"^(.+),(.+),(\d+.?\d*)$");
 
         public Graph Read(string path)
         {
@@ -14,7 +14,7 @@ namespace ShortestPath.models
                 string[] edges = File.ReadAllLines(path);
                 Graph graph = new Graph();
 
-                for (int i = 1; i < edges.Length; i++)
+                for (int i = 0; i < edges.Length; i++)
                 {
                     ReadEdge(graph, edges[i]);
                 }

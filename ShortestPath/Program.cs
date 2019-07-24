@@ -10,7 +10,7 @@ namespace ShortestPath
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            Graph graph = new GraphReader().Read(@"../../../TestFiles/Q20Test.txt");
+            Graph graph = new GraphReader().Read(@"../../../TestFiles/Q3.txt");
             Console.WriteLine("graph read done. duration: " + stopwatch.ElapsedMilliseconds + " ms.");
             while (true)
             {
