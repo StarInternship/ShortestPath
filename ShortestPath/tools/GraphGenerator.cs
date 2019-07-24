@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShortestPath.tools
 {
     class GraphGenerator
     {
-        public static void Main(string[] args)
+        public static void Generate(string[] args)
         {
-            string fileName = @"grid1000.txt";
-            int k = 1000;
+            string fileName = @"../../../TestFiles/Q3.txt";
+            int k = 3;
 
-
-            makeGideTestCase(fileName, k);
-            //makeQkTestCase(fileName, k);
+            //makeGideTestCase(fileName, k);
+            makeQkTestCase(fileName, k);
         }
 
         private static void makeGideTestCase(string fileAddress, int k)

@@ -5,13 +5,13 @@ namespace ShortestPath.models
 {
     public class Node
     {
-        public int Index { get; }
+        public string Index { get; }
         public List<Edge> Outs { get; } = new List<Edge>();
         public bool Visited { get; set; }
         public double Distance { get; set; } = Double.MaxValue;
         public List<Edge> LastInEdges { get; set; } = new List<Edge>();
 
-        public Node(int index) => Index = index;
+        public Node(string index) => Index = index;
 
         public void Reset()
         {

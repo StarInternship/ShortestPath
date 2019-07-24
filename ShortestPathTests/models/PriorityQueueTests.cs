@@ -11,11 +11,11 @@ namespace ShortestPath.models.Tests
         {
             Node[] initialList =
             {
-                new Node(4) { Distance = 1 },
-                new Node(2) { Distance = 1 },
-                new Node(0) { Distance = 5 },
-                new Node(1) { Distance = 12 },
-                new Node(3) { Distance = 19 },
+                new Node("4") { Distance = 1 },
+                new Node("2") { Distance = 1 },
+                new Node("0") { Distance = 5 },
+                new Node("1") { Distance = 12 },
+                new Node("3") { Distance = 19 },
             };
 
             PriorityQueue testQueue = new PriorityQueue();
