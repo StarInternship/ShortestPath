@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ShortestPath.models
@@ -56,19 +57,21 @@ namespace ShortestPath.models
                     }
                 });
             }
+            Console.WriteLine("set nodes in " + Program.stopwatch.ElapsedMilliseconds + "  ms");
+
             return CreatePaths(source, target);
         }
 
 
         public List<Path> FindShortestPaths(string src, string dest)
         {
-            return FindPath(GetNode(src), GetNode(dest));
+            return FindShortestPath(GetNode(src), GetNode(dest));
         }
         private void AddEdge(Node from, Node to, double weight) => from.AddEgde(new Edge(from, to, weight));
 
-        public List<Path> FindPath(string source, string destination) => FindPath(GetNode(source), GetNode(destination));
+        public List<Path> FindShortestPath (string source, string destination) => FindShortestPath(GetNode(source), GetNode(destination));
 
-        private List<Path> FindPath(Node source, Node destination)
+        private List<Path> FindShortestPath(Node source, Node destination)
         {
             Reset();
             source.Distance = 0;
@@ -87,6 +90,7 @@ namespace ShortestPath.models
                     edge => UpdateEdgeDestination(destination, currentNodes, node, edge)
                 );
             }
+            Console.WriteLine("set nodes in " + Program.stopwatch.ElapsedMilliseconds + "  ms");
             return CreatePaths(source, destination);
         }
 
@@ -121,7 +125,6 @@ namespace ShortestPath.models
                     ExpandPath(currentState, path, firstNode);
                 }
             }
-
             return result;
         }
 

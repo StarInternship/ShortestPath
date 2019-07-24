@@ -15,7 +15,7 @@ namespace ShortestPath.models.Tests
             graph.AddEdge("1", "3", 3);
             graph.AddEdge("2", "3", 1);
 
-            var actual = graph.FindPath("0", "3");
+            var actual = graph.FindShortestPath("0", "3");
             var expected = new List<Path>
                 {
                     new Path
@@ -47,7 +47,7 @@ namespace ShortestPath.models.Tests
             graph.AddEdge("1", "3", 1);
             graph.AddEdge("3", "4", 1);
 
-            var actual = graph.FindPath("0", "4");
+            var actual = graph.FindShortestPath("0", "4");
             var expected = new List<Path>
                 {
                     new Path
@@ -82,7 +82,7 @@ namespace ShortestPath.models.Tests
             graph.AddEdge("1", "3", 1);
             graph.AddEdge("3", "4", 20);
 
-            var actual = graph.FindPath("0", "4");
+            var actual = graph.FindShortestPath("0", "4");
             var expected = new List<Path>
                 {
                     new Path
