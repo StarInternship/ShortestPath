@@ -46,7 +46,7 @@ namespace ShortestPath.models
         }
 
 
-        public List<Path> FindShortestPaths(int src, int dest)
+        public List<Path> FindShortestPaths(string src, string dest)
         {
             return FindPath(GetNode(src), GetNode(dest));
         }
