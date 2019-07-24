@@ -21,6 +21,11 @@ namespace ShortestPath.models
             AddEdge(GetNode(from), GetNode(to), weight);
         }
 
+        public List<Path> FindAllPaths(string source , string target)
+        {
+           return FindAllPaths(GetNode(source), GetNode(target));
+        }
+
         public List<Path> FindAllPaths(Node source, Node target)
         {
             Reset();
