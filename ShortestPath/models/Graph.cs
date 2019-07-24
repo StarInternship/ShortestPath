@@ -5,24 +5,25 @@ namespace ShortestPath.models
 {
     public class Graph
     {
-        private readonly Node[] nodes;
+        private readonly Dictionary<string, Node> nodes = new Dictionary<string, Node>();
 
-        public Graph(int n)
+        public Node GetNode(string index)
         {
-            nodes = new Node[n];
-            for (int i = 0; i < n; i++)
+            if (!nodes.ContainsKey(index))
             {
-                nodes[i] = new Node(i);
+                nodes[index] = new Node(index);
             }
+            return nodes[index];
         }
 
-        public Node GetNode(int index) => nodes[index];
-
-        public void AddEdge(int from, int to, double weight) => AddEdge(GetNode(from), GetNode(to), weight);
+        public void AddEdge(string from, string to, double weight)
+        {
+            AddEdge(GetNode(from), GetNode(to), weight);
+        }
 
         private void AddEdge(Node from, Node to, double weight) => from.AddEgde(new Edge(from, to, weight));
 
-        public List<Path> FindPath(int source, int destination) => FindPath(GetNode(source), GetNode(destination));
+        public List<Path> FindPath(string source, string destination) => FindPath(GetNode(source), GetNode(destination));
 
         private List<Path> FindPath(Node source, Node destination)
         {
@@ -48,7 +49,7 @@ namespace ShortestPath.models
 
         private void Reset()
         {
-            foreach (Node node in nodes)
+            foreach (Node node in nodes.Values)
             {
                 node.Reset();
             }

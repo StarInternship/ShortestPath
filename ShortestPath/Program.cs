@@ -10,14 +10,14 @@ namespace ShortestPath
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            Graph graph = new GraphReader().Read(@"../../../TestFiles/hossein_test");
+            Graph graph = new GraphReader().Read(@"../../../TestFiles/Q20Test.txt");
             Console.WriteLine("graph read done. duration: " + stopwatch.ElapsedMilliseconds + " ms.");
             while (true)
             {
                 Console.Write("from: ");
-                int source = int.Parse(Console.ReadLine());
+                string source = Console.ReadLine();
                 Console.Write("dest: ");
-                int destination = int.Parse(Console.ReadLine());
+                string destination = Console.ReadLine();
 
                 stopwatch.Restart();
                 var paths = graph.FindPath(source, destination);
