@@ -3,30 +3,28 @@ using System.Collections.Generic;
 
 namespace ShortestPath.models
 {
-    public class Path : LinkedList<Edge>
+    public class Path : Stack<Edge>
     {
-        private readonly HashSet<Node> nodeSet;
         public double Distance { get; private set; }
 
-        public Path() : base() => nodeSet = new HashSet<Node>();
+        public Path() : base() { }
 
-        public Path(Path path) : base(path)
-        {
-            Distance = path.Distance;
-            nodeSet = new HashSet<Node>(path.nodeSet);
-        }
+        public Path(Path path) : base(path) => Distance = path.Distance;
 
-        public Path(Node initialNode) : base() => nodeSet = new HashSet<Node>() { initialNode };
+        public Path(Node initialNode) : base() { }
 
         public void Add(Edge edge) => AddFirst(edge);
 
         public new void AddFirst(Edge edge)
         {
-            base.AddFirst(edge);
-            nodeSet.Add(edge.From);
-            Distance += edge.Weight;
         }
 
-        public bool ContainsNode(Node node) => nodeSet.Contains(node);
+        public bool ContainsNode(Node node) => true;
+
+        public new void Push(Edge edge)
+        {
+            base.Push(edge);
+            Distance += edge.Weight;
+        }
     }
 }

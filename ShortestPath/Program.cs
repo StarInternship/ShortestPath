@@ -20,6 +20,8 @@ namespace ShortestPath
                 string source = Console.ReadLine();
                 Console.Write("dest: ");
                 string destination = Console.ReadLine();
+                Console.Write("max distance: ");
+                int max = int.Parse(Console.ReadLine());
 
                 stopwatch.Restart();
                 var result = graph.FindPaths(source, destination , true);
