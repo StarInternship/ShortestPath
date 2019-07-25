@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 
 namespace ShortestPath.models.Tests
 {
@@ -20,8 +19,13 @@ namespace ShortestPath.models.Tests
             graph.AddEdge("2", "1", 1);
             graph.AddEdge("2", "2", 1);
 
-            var actual = new PathFinder(graph, "0", "1", true, 3);
+            var actual = new PathFinder(graph, "0", "1", true, 3).Find();
             var expected = new ResultGraph();
+            expected.AddEdge("0", "1", 1);
+            expected.AddEdge("0", "2", 1);
+            expected.AddEdge("2", "1", 1);
+
+            Assert.AreEqual(true, expected.AllEdges.SetEquals(actual.AllEdges));
         }
     }
 }
