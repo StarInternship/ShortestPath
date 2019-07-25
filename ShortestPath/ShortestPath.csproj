@@ -50,6 +50,7 @@
     <Compile Include="models\Path.cs" />
     <Compile Include="models\PathFinder.cs" />
     <Compile Include="models\PriorityQueue.cs" />
+    <Compile Include="models\ResultGraph.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

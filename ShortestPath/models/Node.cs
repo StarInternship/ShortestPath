@@ -6,22 +6,21 @@ namespace ShortestPath.models
     public class Node
     {
         public string Index { get; }
-        public List<Edge> Ins { get; } = new List<Edge>();
         public List<Edge> Outs { get; } = new List<Edge>();
-        public bool Visited { get; set; }
+        public State State { get; set; } = new State();
         public double Distance { get; set; } = Double.MaxValue;
         public List<Edge> LastInEdges { get; set; } = new List<Edge>();
+        public bool Exploring { get; set; }
 
         public Node(string index) => Index = index;
 
         public void Reset()
         {
-            Visited = false;
+            State.ReachState = ReachState.NOT_VISITTED;
+            State.DistanceToTarget = double.MaxValue;
             Distance = Double.MaxValue;
             LastInEdges = new List<Edge>();
         }
-
-        public void AddIn(Edge edge) => Ins.Add(edge);
 
         public void AddOut(Edge edge) => Outs.Add(edge);
 
@@ -42,5 +41,16 @@ namespace ShortestPath.models
         }
 
         public override string ToString() => Index;
+    }
+
+    public class State
+    {
+        public double DistanceToTarget { get; set; } = double.MaxValue;
+        public ReachState ReachState { get; set; } = ReachState.NOT_VISITTED;
+    }
+
+    public enum ReachState
+    {
+        NOT_VISITTED, UNREACHABLE, REACHED
     }
 }
