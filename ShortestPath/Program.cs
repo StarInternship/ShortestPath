@@ -1,5 +1,6 @@
 ﻿using ShortestPath.models;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace ShortestPath
@@ -24,7 +25,7 @@ namespace ShortestPath
                 int max = int.Parse(Console.ReadLine());
 
                 stopwatch.Restart();
-                var result = graph.FindPaths(source, destination , true);
+                var result = graph.FindPaths(source, destination, true);
 
                 Console.WriteLine("duration: " + stopwatch.ElapsedMilliseconds + " ms. edges: ");
 

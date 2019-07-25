@@ -39,8 +39,12 @@ namespace ShortestPath.models
         /// <returns>expected subgraph</returns>
         public Graph FindPaths(string src, string dest, bool findAllPath) => FindPaths(GetNode(src), GetNode(dest), findAllPath);
 
-        private void AddEdge(Node from, Node to, double weight) => from.AddEdge(new Edge(from, to, weight));
-
+        private void AddEdge(Node from, Node to, double weight)
+        {
+            Edge edge = new Edge(from, to, weight);
+            from.AddOut(edge);
+            to.AddIn(edge);
+        }
         private Graph FindPaths(Node source, Node destination, bool findAllPath)
         {
             Reset();
@@ -67,7 +71,7 @@ namespace ShortestPath.models
         {
             if (findAllPath)
             {
-                edge.To.AddInEdge(edge);
+                edge.To.AddLastInEdge(edge);
                 if (!edge.To.Visited)
                 {
                     currentNodes.Add(edge.To);
@@ -86,7 +90,7 @@ namespace ShortestPath.models
                 }
                 else if (IsEqualPath(node, edge))
                 {
-                    edge.To.AddInEdge(edge);
+                    edge.To.AddLastInEdge(edge);
                 }
             }
         }
