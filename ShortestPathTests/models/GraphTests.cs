@@ -27,5 +27,20 @@ namespace ShortestPath.models.Tests
 
             Assert.AreEqual(true, expected.AllEdges.SetEquals(actual.AllEdges));
         }
+
+
+        [TestMethod()]
+        public void K5()
+        {
+            GraphReader reader = new GraphReader();
+            Graph graph = reader.ReadGraph(@"../../../TestFiles/edges.csv");
+
+
+            var actual = new PathFinder(graph, "2", "1", true, 5).Find();
+
+            ResultGraph expected = reader.ReadGraphResult(@"../../../TestFiles/solved.csv");
+
+            Assert.AreEqual(true, expected.AllEdges.SetEquals(actual.AllEdges));
+        }
     }
 }

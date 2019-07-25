@@ -13,7 +13,7 @@ namespace ShortestPath
         {
             stopwatch = new Stopwatch();
             stopwatch.Start();
-            Graph graph = new GraphReader().Read(@"../../../TestFiles/hossein_test");
+            Graph graph = new GraphReader().ReadGraph(@"../../../TestFiles/edges.csv");
             Console.WriteLine("graph read done. duration: " + stopwatch.ElapsedMilliseconds + " ms.");
             while (true)
             {
@@ -30,7 +30,7 @@ namespace ShortestPath
                 stopwatch.Restart();
                 var result = new PathFinder(graph, source, destination, findAllPaths, max).Find();
 
-                Console.WriteLine("duration: " + stopwatch.ElapsedMilliseconds + " ms. edges: ");
+                Console.WriteLine("duration: " + stopwatch.ElapsedMilliseconds + " ms. edges: "+result.AllEdges.Count);
 
                 foreach (var edge in result.AllEdges)
                 {
