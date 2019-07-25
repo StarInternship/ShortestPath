@@ -42,5 +42,21 @@ namespace ShortestPath.models.Tests
 
             Assert.AreEqual(true, expected.AllEdges.SetEquals(actual.AllEdges));
         }
+
+        [TestMethod()]
+        public void T1()
+        {
+            GraphReader reader = new GraphReader();
+
+            string fieName = "t1";
+            Graph graph = reader.ReadGraph(@"../../../TestFiles/"+fieName);
+
+
+            var actual = new PathFinder(graph, "1", "5", true, 5).Find();
+
+            ResultGraph expected = reader.ReadGraphResult(@"../../../results/"+fieName);
+
+            Assert.AreEqual(true, expected.AllEdges.SetEquals(actual.AllEdges));
+        }
     }
 }
