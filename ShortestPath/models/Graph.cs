@@ -95,6 +95,16 @@ namespace ShortestPath.models
             }
         }
 
+
+        public List<Path> FindPathWithDFS(Node source , Node target, bool findAllPath)
+        {
+
+            return new List<Path>();
+        }
+
+      
+
+
         // this path is a shorter path to edge.to?
         private bool IsAShorterPath(Node node, Edge edge) => node.Distance + edge.Weight < edge.To.Distance;
 
