@@ -18,9 +18,28 @@ namespace ShortestPath.models
             this.maxDistance = maxDistance;
         }
 
-        public List<Path> find()
+        public List<Path> Find()
         {
             return result;
+        }
+
+        private void Explore(Path currentPath, Node currentNode)
+        {
+            if (currentNode.Equals(target))
+            {
+                result.Add(new Path(currentPath));
+            }
+
+            currentNode.Visited = true;
+            currentNode.Outs.ForEach(edge => {
+
+                if (!edge.To.Visited)
+                {
+                    currentPath.Push(edge);
+                    Explore( currentPath, edge.To);
+                }
+            });
+            currentNode.Visited = false;
         }
     }
 }
