@@ -40,16 +40,16 @@ namespace ShortestPath.models
                         return currentNode.State;
                     }
                     break;
-                //case ReachState.REACHED:
-                //    if (currentDistance + currentNode.State.DistanceToTarget <= maxDistance)
-                //    {
-                //        break;
-                //        return currentNode.State;
-                //    }
-                //    else
-                //    {
-                //        return new State { ReachState = ReachState.UNREACHABLE };
-                //    }
+                    //case ReachState.REACHED:
+                    //    if (currentDistance + currentNode.State.DistanceToTarget <= maxDistance)
+                    //    {
+                    //        break;
+                    //        return currentNode.State;
+                    //    }
+                    //    else
+                    //    {
+                    //        return new State { ReachState = ReachState.UNREACHABLE };
+                    //    }
             }
             if (currentNode.Equals(target))
             {
