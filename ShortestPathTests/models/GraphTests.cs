@@ -32,29 +32,27 @@ namespace ShortestPath.models.Tests
         [TestMethod()]
         public void K5()
         {
-            GraphReader reader = new GraphReader();
-            Graph graph = reader.ReadGraph(@"../../../TestFiles/edges.csv");
-
-
-            var actual = new PathFinder(graph, "2", "1", true, 5).Find();
-
-            ResultGraph expected = reader.ReadGraphResult(@"../../../TestFiles/solved.csv");
-
-            Assert.AreEqual(true, expected.AllEdges.SetEquals(actual.AllEdges));
+            testGraph("edges.csv", "2", "1", true, 5, "solved.csv");
         }
 
         [TestMethod()]
         public void T1()
         {
+            testGraph("t1", "1", "5", true, 5, "t1");
+        }
+
+
+
+        private void testGraph(string graphPath, string source, string destination, bool findAll, int max, string resultPath) {
+
             GraphReader reader = new GraphReader();
 
-            string fieName = "t1";
-            Graph graph = reader.ReadGraph(@"../../../TestFiles/"+fieName);
+            Graph graph = reader.ReadGraph(@"../../../TestFiles/" + graphPath);
 
 
-            var actual = new PathFinder(graph, "1", "5", true, 5).Find();
+            var actual = new PathFinder(graph, source, destination, findAll, max).Find();
 
-            ResultGraph expected = reader.ReadGraphResult(@"../../../results/"+fieName);
+            ResultGraph expected = reader.ReadGraphResult(@"../../../results/" + resultPath);
 
             Assert.AreEqual(true, expected.AllEdges.SetEquals(actual.AllEdges));
         }
