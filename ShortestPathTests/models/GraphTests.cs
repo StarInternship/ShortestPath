@@ -31,7 +31,7 @@ namespace ShortestPath.models.Tests
         [TestMethod()]
         public void K5()
         {
-            TestGraph("edges.csv", "2", "1", true, 5, "solved.csv");
+            TestGraph("newTest.csv", "2", "1", true, 5, "solved.csv");
         }
 
         private void TestGraph(string graphPath, string source, string destination, bool findAll, int max, string resultPath) {
