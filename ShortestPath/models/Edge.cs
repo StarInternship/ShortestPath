@@ -21,5 +21,9 @@
             var other = (Edge)obj;
             return From.Equals(other.From) && To.Equals(other.To) && Weight == other.Weight;
         }
+
+        public override string ToString() => From + "," + To + "," + Weight;
+
+        public override int GetHashCode() => ToString().GetHashCode();
     }
 }

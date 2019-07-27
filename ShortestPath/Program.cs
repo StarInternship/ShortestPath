@@ -6,13 +6,13 @@ namespace ShortestPath
 {
     static class Program
     {
-      public static Stopwatch stopwatch { get; set; }
+        public static Stopwatch stopwatch { get; set; }
 
         static void Main(string[] args)
         {
             stopwatch = new Stopwatch();
             stopwatch.Start();
-            Graph graph = new GraphReader().Read(@"../../../TestFiles/hossein_test");
+            Graph graph = new GraphReader().ReadGraph(@"../../../TestFiles/newTest.csv ");
             Console.WriteLine("graph read done. duration: " + stopwatch.ElapsedMilliseconds + " ms.");
             while (true)
             {
@@ -20,27 +20,22 @@ namespace ShortestPath
                 string source = Console.ReadLine();
                 Console.Write("dest: ");
                 string destination = Console.ReadLine();
+                //Console.Write("find all paths: ");
+                //bool findAllPaths = Console.ReadLine().Equals("1");
+                bool findAllPaths = true;
+                Console.Write("max distance: ");
+                int max = int.Parse(Console.ReadLine());
+                Console.Write("result name: ");
+                string resultName = Console.ReadLine();
 
                 stopwatch.Restart();
-                var paths = graph.FindPaths(source, destination , false);
+                var result = new PathFinder(graph, source, destination, findAllPaths, max).Find();
 
-                if (paths.Count == 0)
-                {
-                    Console.WriteLine("not found. time: " + stopwatch.ElapsedMilliseconds + " ms.");
-                }
-                else
-                {
-                    Console.WriteLine("find " + paths.Count + " paths in " + stopwatch.ElapsedMilliseconds + " ms with distance of " + paths[0].Distance);
+                Console.WriteLine("duration: " + stopwatch.ElapsedMilliseconds + " ms. edges: " + result.AllEdges.Count);
 
-                    paths.ForEach(path =>
-                    {
-                        Console.Write("[" + source + "]");
-                        foreach (Edge edge in path)
-                        {
-                            Console.Write(" -(" + edge.Weight + ")-> [" + edge.To.Index + "]");
-                        }
-                        Console.WriteLine();
-                    });
+                foreach (var edge in result.AllEdges)
+                {
+                    ResultWriter.WriteLine(resultName, edge);
                 }
             }
         }
