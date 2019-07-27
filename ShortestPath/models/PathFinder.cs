@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ShortestPath.models
 {
@@ -29,7 +30,6 @@ namespace ShortestPath.models
 
         private State Explore(Node currentNode, double currentDistance)
         {
-            if (currentNode.Exploring) return new State { ReachState = ReachState.UNREACHABLE };
 
             switch (currentNode.State.ReachState)
             {
@@ -59,10 +59,15 @@ namespace ShortestPath.models
 
         private void ExploreEdge(Node currentNode, double currentDistance, Edge edge)
         {
-            if (currentDistance + GetWeight(edge) > maxDistance)
+            if (currentDistance + GetWeight(edge) > maxDistance) return;
+
+            if (edge.To.Exploring)
+            {
                 return;
+            }
 
             var state = Explore(edge.To, currentDistance + GetWeight(edge));
+
             if (state.ReachState == ReachState.REACHED)
             {
                 currentNode.State.ReachState = state.ReachState;
