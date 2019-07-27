@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 
 namespace ShortestPath.models
 {
@@ -40,44 +39,43 @@ namespace ShortestPath.models
                         return currentNode.State;
                     }
                     break;
-                    //case ReachState.REACHED:
-                    //    if (currentDistance + currentNode.State.DistanceToTarget <= maxDistance)
-                    //    {
-                    //        break;
-                    //        return currentNode.State;
-                    //    }
-                    //    else
-                    //    {
-                    //        return new State { ReachState = ReachState.UNREACHABLE };
-                    //    }
+
             }
+
             if (currentNode.Equals(target))
             {
-                currentNode.State.ReachState = ReachState.REACHED;
-                currentNode.State.DistanceToTarget = 0;
-                currentNode.Distance = Math.Min(currentNode.Distance, currentDistance);
-                return currentNode.State;
+                return TargetReach(currentNode, currentDistance);
             }
 
             currentNode.State.ReachState = ReachState.UNREACHABLE;
-            currentNode.Distance = Math.Min(currentNode.Distance, currentDistance);
+            currentNode.Distance = currentDistance;
             currentNode.Exploring = true;
 
-            currentNode.Outs.ForEach(edge =>
-            {
-                if (currentDistance + GetWeight(edge) > maxDistance)
-                    return;
-
-                var state = Explore(edge.To, currentDistance + GetWeight(edge));
-                if (state.ReachState == ReachState.REACHED)
-                {
-                    currentNode.State.ReachState = state.ReachState;
-                    currentNode.State.DistanceToTarget = Math.Min(currentNode.State.DistanceToTarget, state.DistanceToTarget + GetWeight(edge));
-                    result.AddEdge(edge.From.Index, edge.To.Index, edge.Weight);
-                }
-            });
+            currentNode.Outs.ForEach(edge => ExploreEdge(currentNode, currentDistance, edge));
 
             currentNode.Exploring = false;
+            return currentNode.State;
+        }
+
+        private void ExploreEdge(Node currentNode, double currentDistance, Edge edge)
+        {
+            if (currentDistance + GetWeight(edge) > maxDistance)
+                return;
+
+            var state = Explore(edge.To, currentDistance + GetWeight(edge));
+            if (state.ReachState == ReachState.REACHED)
+            {
+                currentNode.State.ReachState = state.ReachState;
+                currentNode.State.DistanceToTarget = Math.Min(currentNode.State.DistanceToTarget, state.DistanceToTarget + GetWeight(edge));
+                result.AddEdge(edge.From.Index, edge.To.Index, edge.Weight);
+            }
+        }
+
+        private static State TargetReach(Node currentNode, double currentDistance)
+        {
+            currentNode.State.ReachState = ReachState.REACHED;
+            currentNode.State.DistanceToTarget = 0;
+            currentNode.Distance = currentDistance;
             return currentNode.State;
         }
 

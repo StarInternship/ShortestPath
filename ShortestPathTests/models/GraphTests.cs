@@ -28,22 +28,13 @@ namespace ShortestPath.models.Tests
             Assert.AreEqual(true, expected.AllEdges.SetEquals(actual.AllEdges));
         }
 
-
         [TestMethod()]
         public void K5()
         {
-            testGraph("edges.csv", "2", "1", true, 5, "solved.csv");
+            TestGraph("edges.csv", "2", "1", true, 5, "solved.csv");
         }
 
-        [TestMethod()]
-        public void T1()
-        {
-            testGraph("t1", "1", "5", true, 5, "t1");
-        }
-
-
-
-        private void testGraph(string graphPath, string source, string destination, bool findAll, int max, string resultPath) {
+        private void TestGraph(string graphPath, string source, string destination, bool findAll, int max, string resultPath) {
 
             GraphReader reader = new GraphReader();
 
