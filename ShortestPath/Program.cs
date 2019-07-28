@@ -21,8 +21,7 @@ namespace ShortestPath
                 Console.Write("dest: ");
                 string destination = Console.ReadLine();
                 //Console.Write("find all paths: ");
-                //bool findAllPaths = Console.ReadLine().Equals("1");
-                bool findAllPaths = true;
+                bool findAllPaths = true; // Console.ReadLine().Equals("1");
                 Console.Write("max distance: ");
                 int max = int.Parse(Console.ReadLine());
                 Console.Write("result name: ");
