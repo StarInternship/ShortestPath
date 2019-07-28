@@ -6,14 +6,14 @@ namespace ShortestPath
 {
     static class Program
     {
-        public static Stopwatch stopwatch { get; set; }
+        private static Stopwatch Stopwatch { get; set; }
 
-        static void Main(string[] args)
+        static void Main()
         {
-            stopwatch = new Stopwatch();
-            stopwatch.Start();
+            Stopwatch = new Stopwatch();
+            Stopwatch.Start();
             Graph graph = new GraphReader().ReadGraph(@"../../../TestFiles/newTest.csv ");
-            Console.WriteLine("graph read done. duration: " + stopwatch.ElapsedMilliseconds + " ms.");
+            Console.WriteLine("graph read done. duration: " + Stopwatch.ElapsedMilliseconds + " ms.");
             while (true)
             {
                 Console.Write("from: ");
@@ -27,10 +27,10 @@ namespace ShortestPath
                 Console.Write("result name: ");
                 string resultName = Console.ReadLine();
 
-                stopwatch.Restart();
+                Stopwatch.Restart();
                 var result = new PathFinder(graph, source, destination, findAllPaths, max).Find();
 
-                Console.WriteLine("duration: " + stopwatch.ElapsedMilliseconds + " ms. edges: " + result.AllEdges.Count);
+                Console.WriteLine("duration: " + Stopwatch.ElapsedMilliseconds + " ms. edges: " + result.AllEdges.Count);
 
                 foreach (var edge in result.AllEdges)
                 {
