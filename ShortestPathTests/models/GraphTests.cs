@@ -5,45 +5,48 @@ namespace ShortestPath.models.Tests
     [TestClass()]
     public class GraphTests
     {
+        private const string testFilesPath = @"../../../TestFiles/";
+        private const string resultFilesPath = @"../../../results/";
+
         [TestMethod()]
-        public void K3Test()
+        public void K3AllPathSearch()
         {
-            Graph graph = new Graph();
-            graph.AddEdge("0", "0", 1);
-            graph.AddEdge("0", "1", 1);
-            graph.AddEdge("0", "2", 1);
-            graph.AddEdge("1", "0", 1);
-            graph.AddEdge("1", "1", 1);
-            graph.AddEdge("1", "2", 1);
-            graph.AddEdge("2", "0", 1);
-            graph.AddEdge("2", "1", 1);
-            graph.AddEdge("2", "2", 1);
-
-            var actual = new PathFinder(graph, "0", "1", true, 3).Find();
-            var expected = new ResultGraph();
-            expected.AddEdge("0", "1", 1);
-            expected.AddEdge("0", "2", 1);
-            expected.AddEdge("2", "1", 1);
-
-            Assert.AreEqual(true, expected.AllEdges.SetEquals(actual.AllEdges));
+            TestGraph("K3AllPathSearch.csv", "0", "1", true, 3, "K3AllPathSearch.csv");
         }
 
         [TestMethod()]
-        public void K5()
+        public void FindAllPaths()
         {
-            TestGraph("newTest.csv", "2", "1", true, 5, "solved.csv");
+            TestGraph("BigGraphAllpathSearch.csv", "2", "1", true, 5, "BigGraphAllpathSearch.csv");
+        }
+
+        [TestMethod()]
+        public void SimpleGraphShortestPathSearch()
+        {
+            TestGraph("SimpleGraphShortestPathSearch.csv", "0", "3", false, int.MaxValue, "SimpleGraphShortestPathSearch.csv");
+        }
+
+        [TestMethod()]
+        public void ALittleComplicatedShortestPathGraphSearch()
+        {
+            TestGraph("ALittleComplicatedShortestPathGraphSearch.csv", "0", "4", false, int.MaxValue, "ALittleComplicatedShortestPathGraphSearch.csv");
+        }
+        
+        [TestMethod()]
+        public void VisitedGraphShortestPathSearch()
+        {
+            TestGraph("VisitedGraphShortestPathSearch.csv", "0", "4", false, int.MaxValue, "VisitedGraphShortestPathSearch.csv");
         }
 
         private void TestGraph(string graphPath, string source, string destination, bool findAll, int max, string resultPath) {
 
             GraphReader reader = new GraphReader();
 
-            Graph graph = reader.ReadGraph(@"../../../TestFiles/" + graphPath);
-
+            Graph graph = reader.ReadGraph(testFilesPath + graphPath);
 
             var actual = new PathFinder(graph, source, destination, findAll, max).Find();
 
-            ResultGraph expected = reader.ReadGraphResult(@"../../../results/" + resultPath);
+            ResultGraph expected = reader.ReadGraphResult(resultFilesPath + resultPath);
 
             Assert.AreEqual(true, expected.AllEdges.SetEquals(actual.AllEdges));
         }

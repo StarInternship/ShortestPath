@@ -57,6 +57,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="models\GraphTests.cs" />
+    <Compile Include="models\PriorityQueueTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

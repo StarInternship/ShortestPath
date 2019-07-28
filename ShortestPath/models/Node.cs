@@ -19,7 +19,7 @@ namespace ShortestPath.models
         /// <summary>
         /// reach and distance to target state of node
         /// </summary>
-        public State State { get; set; } = new State();
+        public State State { get; } = new State();
         /// <summary>
         /// distance between source and this node
         /// </summary>
