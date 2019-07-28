@@ -4,10 +4,21 @@ using System.Text.RegularExpressions;
 
 namespace ShortestPath.models
 {
+    /// <summary>
+    /// A .csv file graph reader
+    /// </summary>
    public class GraphReader
     {
+        /// <summary>
+        /// .csv row pattern
+        /// </summary>
         private static readonly Regex regex = new Regex(@"^(.+),(.+),(\d+.?\d*)$");
 
+        /// <summary>
+        /// reads a graph from a csv file
+        /// </summary>
+        /// <param name="path">path to file</param>
+        /// <returns>result graph</returns>
         public Graph ReadGraph(string path)
         {
             if (File.Exists(path))
@@ -24,6 +35,11 @@ namespace ShortestPath.models
             return new Graph();
         }
 
+        /// <summary>
+        /// reads a line of the file as an edge of a graph
+        /// </summary>
+        /// <param name="graph">result graph</param>
+        /// <param name="edge">current line</param>
         private static void ReadEdge(Graph graph, string edge)
         {
             var groups = regex.Matches(edge)[0].Groups;
@@ -35,6 +51,11 @@ namespace ShortestPath.models
             graph.AddEdge(source, destination, weight);
         }
 
+        /// <summary>
+        /// reads a graph result for test.
+        /// </summary>
+        /// <param name="path">path to file</param>
+        /// <returns>result graph</returns>
         public ResultGraph ReadGraphResult(string path)
         {
             if (File.Exists(path))
