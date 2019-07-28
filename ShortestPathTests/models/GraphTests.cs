@@ -9,34 +9,24 @@ namespace ShortestPath.models.Tests
         private const string resultFilesPath = @"../../../results/";
 
         [TestMethod()]
-        public void K3AllPathSearch()
-        {
+        public void K3AllPathSearch() => 
             TestGraph("K3AllPathSearch.csv", "0", "1", true, 3, "K3AllPathSearch.csv");
-        }
 
         [TestMethod()]
-        public void FindAllPaths()
-        {
+        public void FindAllPaths() => 
             TestGraph("BigGraphAllpathSearch.csv", "2", "1", true, 5, "BigGraphAllpathSearch.csv");
-        }
 
         [TestMethod()]
-        public void SimpleGraphShortestPathSearch()
-        {
+        public void SimpleGraphShortestPathSearch() => 
             TestGraph("SimpleGraphShortestPathSearch.csv", "0", "3", false, int.MaxValue, "SimpleGraphShortestPathSearch.csv");
-        }
 
         [TestMethod()]
-        public void ALittleComplicatedShortestPathGraphSearch()
-        {
+        public void ALittleComplicatedShortestPathGraphSearch() => 
             TestGraph("ALittleComplicatedShortestPathGraphSearch.csv", "0", "4", false, int.MaxValue, "ALittleComplicatedShortestPathGraphSearch.csv");
-        }
-        
+
         [TestMethod()]
-        public void VisitedGraphShortestPathSearch()
-        {
+        public void VisitedGraphShortestPathSearch() => 
             TestGraph("VisitedGraphShortestPathSearch.csv", "0", "4", false, int.MaxValue, "VisitedGraphShortestPathSearch.csv");
-        }
 
         private void TestGraph(string graphPath, string source, string destination, bool findAll, int max, string resultPath) {
 

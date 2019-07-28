@@ -6,7 +6,7 @@ namespace ShortestPath
 {
     static class Program
     {
-        private static Stopwatch Stopwatch = new Stopwatch();
+        private static readonly Stopwatch Stopwatch = new Stopwatch();
 
         static void Main()
         {
