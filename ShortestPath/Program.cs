@@ -10,6 +10,7 @@ namespace ShortestPath
 
         static void Main()
         {
+
             Stopwatch.Start();
             Graph graph = new GraphReader().ReadGraph(@"../../../TestFiles/BigGraphAllpathSearch.csv");
             Console.WriteLine("graph read done. duration: " + Stopwatch.ElapsedMilliseconds + " ms.");
