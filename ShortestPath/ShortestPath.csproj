@@ -43,14 +43,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="models\Edge.cs" />
     <Compile Include="models\Graph.cs" />
     <Compile Include="models\GraphReader.cs" />
     <Compile Include="models\Node.cs" />
-    <Compile Include="models\Path.cs" />
-    <Compile Include="models\PriorityQueue.cs" />
+    <Compile Include="models\PathFinder.cs" />
+    <Compile Include="models\ResultGraph.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="models\ResultWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
