@@ -3,9 +3,20 @@ using System.Linq;
 
 namespace ShortestPath.models
 {
+    /// <summary>
+    /// a sorted queue used in find shortest paths
+    /// </summary>
     public class PriorityQueue
     {
+        /// <summary>
+        /// sorted dictionary of node distance to nodes set havind that distance to source
+        /// </summary>
         private readonly SortedDictionary<double, HashSet<Node>> dictionary = new SortedDictionary<double, HashSet<Node>>();
+
+        /// <summary>
+        /// adds a node to queue
+        /// </summary>
+        /// <param name="node">node</param>
         public void Add(Node node)
         {
             if (dictionary.ContainsKey(node.Distance))
@@ -18,6 +29,10 @@ namespace ShortestPath.models
             }
         }
 
+        /// <summary>
+        /// pops first node of queue (removes it)
+        /// </summary>
+        /// <returns>first node of queue</returns>
         public Node Pop()
         {
             var first = dictionary.First();
@@ -30,9 +45,11 @@ namespace ShortestPath.models
             }
             return firstNode;
         }
-        public bool IsEmpty()
-        {
-            return dictionary.Count == 0;
-        }
+
+        /// <summary>
+        /// returns true if queue is empty
+        /// </summary>
+        /// <returns>true if queue is empty</returns>
+        public bool IsEmpty() => dictionary.Count == 0;
     }
 }
