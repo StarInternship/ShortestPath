@@ -9,8 +9,14 @@ namespace ShortestPath.models
         public Node Destination { get; }
         public HashSet<Edge> AllEdges { get; } = new HashSet<Edge>();
 
-        public void AddEdge(string from, string to, double weight) => AddEdge(GetNode(from), GetNode(to), weight);
+        public new void AddEdge(string from, string to, double weight) => AddEdge(GetNode(from), GetNode(to), weight);
 
-        public void AddEdge(Node from, Node to, double weight) => AllEdges.Add(base.AddEdge(from, to, weight));
+        public new void AddEdge(Node from, Node to, double weight) => AllEdges.Add(base.AddEdge(from, to, weight));
+
+        internal bool Exploring(string index)
+        {
+            if (!Nodes.ContainsKey(index)) return false;
+            return Nodes[index].Exploring;
+        }
     }
 }

@@ -6,24 +6,28 @@ namespace ShortestPath
 {
     static class Program
     {
-        private static Stopwatch Stopwatch { get; set; }
+        private static Stopwatch Stopwatch = new Stopwatch();
 
         static void Main()
         {
-            Stopwatch = new Stopwatch();
             Stopwatch.Start();
             Graph graph = new GraphReader().ReadGraph(@"../../../TestFiles/newTest.csv ");
             Console.WriteLine("graph read done. duration: " + Stopwatch.ElapsedMilliseconds + " ms.");
+
             while (true)
             {
                 Console.Write("from: ");
                 string source = Console.ReadLine();
                 Console.Write("dest: ");
                 string destination = Console.ReadLine();
-                //Console.Write("find all paths: ");
-                bool findAllPaths = true; // Console.ReadLine().Equals("1");
-                Console.Write("max distance: ");
-                int max = int.Parse(Console.ReadLine());
+                Console.Write("find all paths? ");
+                bool findAllPaths = !Console.ReadLine().Equals("0");
+                int max = int.MaxValue;
+                if (findAllPaths)
+                {
+                    Console.Write("max distance: ");
+                    max = int.Parse(Console.ReadLine());
+                }
                 Console.Write("result name: ");
                 string resultName = Console.ReadLine();
 

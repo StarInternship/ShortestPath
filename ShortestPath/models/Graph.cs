@@ -2,8 +2,15 @@
 
 namespace ShortestPath.models
 {
+
+    /// <summary>
+    /// A directed and weighted graph model for analyzing
+    /// </summary>
     public class Graph
     {
+        /// <summary>
+        /// A dictionary of each node Index pointing to node
+        /// </summary>
         public Dictionary<string, Node> Nodes { get; } = new Dictionary<string, Node>();
 
         /// <summary>
@@ -42,6 +49,9 @@ namespace ShortestPath.models
             return edge;
         }
 
+        /// <summary>
+        /// For searching again and again, some parts of graph should be reset.
+        /// </summary>
         public void Reset()
         {
             foreach (Node node in Nodes.Values)

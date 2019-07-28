@@ -26,11 +26,11 @@ namespace ShortestPath.models
 
         public void AddLastInEdge(Edge edge) => LastInEdges.Add(edge);
 
-        public void RecreateInEdges(Edge edge, double newDistance)
+        public void RecreateInEdges(Edge edge)
         {
             LastInEdges.Clear();
             LastInEdges.Add(edge);
-            Distance = newDistance;
+            Distance = edge.From.Distance + edge.Weight;
         }
 
         public override bool Equals(object obj)
