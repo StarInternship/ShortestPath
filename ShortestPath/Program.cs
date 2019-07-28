@@ -10,6 +10,8 @@ namespace ShortestPath
 
         static void Main()
         {
+
+
             Stopwatch = new Stopwatch();
             Stopwatch.Start();
             Graph graph = new GraphReader().ReadGraph(@"../../../TestFiles/newTest.csv ");
