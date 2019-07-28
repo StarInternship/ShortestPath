@@ -11,7 +11,7 @@ namespace ShortestPath
         static void Main()
         {
             Stopwatch.Start();
-            Graph graph = new GraphReader().ReadGraph(@"../../../TestFiles/newTest.csv ");
+            Graph graph = new GraphReader().ReadGraph(@"../../../TestFiles/newTest.csv");
             Console.WriteLine("graph read done. duration: " + Stopwatch.ElapsedMilliseconds + " ms.");
 
             while (true)
@@ -29,7 +29,7 @@ namespace ShortestPath
                     max = int.Parse(Console.ReadLine());
                 }
                 Console.Write("result name: ");
-                string resultName = Console.ReadLine();
+                var resultWriter = new ResultWriter(Console.ReadLine());
 
                 Stopwatch.Restart();
                 var result = new PathFinder(graph, source, destination, findAllPaths, max).Find();
@@ -38,7 +38,7 @@ namespace ShortestPath
 
                 foreach (var edge in result.AllEdges)
                 {
-                    ResultWriter.WriteLine(resultName, edge);
+                    resultWriter.WriteLine(edge);
                 }
             }
         }

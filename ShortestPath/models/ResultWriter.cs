@@ -27,8 +27,7 @@ namespace ShortestPath
         public ResultWriter(string fileName)
         {
             filePath = resultPath + fileName + format;
-            File.Delete(filePath);
-            File.Create(filePath);
+            File.WriteAllText(filePath, string.Empty);
         }
 
         /// <summary>
