@@ -28,20 +28,19 @@ namespace ShortestPath.models
         }
 
         /// <summary>
-        /// add an edge to graph
+        /// adds an edge to graph
         /// </summary>
-        /// <param name="from">edge strting node index, if does'n exists, it will be created</param>
+        /// <param name="from">edge starting node index, if does'n exists, it will be created</param>
         /// <param name="to">edge ending node index, if does'n exists, it will be created</param>
-        /// <param name="weight">wheight of edge</param>
+        /// <param name="weight">weight of edge</param>
         public Edge AddEdge(string from, string to, double weight) => AddEdge(GetNode(from), GetNode(to), weight);
 
         /// <summary>
-        /// finds shortest paths between src and dest
+        /// adds an edge to graph
         /// </summary>
-        /// <param name="src">source</param>
-        /// <param name="dest">destindation</param>
-        /// <param name="findAllPath">if true method returns all paths from source to destination</param>
-        /// <returns>expected subgraph</returns>
+        /// <param name="from">edge starting node, if does'n exists, it will be created</param>
+        /// <param name="to">edge ending node, if does'n exists, it will be created</param>
+        /// <param name="weight">weight of edge</param>
         public Edge AddEdge(Node from, Node to, double weight)
         {
             Edge edge = new Edge(from, to, weight);
