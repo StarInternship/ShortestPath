@@ -82,7 +82,7 @@
         function getGraphList() {
             $.ajax({
                 url: '/home/getGraphsList',
-                type: 'GET'
+                method: 'post'
             }).done(result => {
                 var list = result.List;
                 $('#graphs_list').html('');
@@ -102,7 +102,7 @@
 
             $.ajax({
                 url: '/home/importGraph',
-                type: 'GET',
+                method: 'post'
                 data: {
                     graphName: graphName
                 }
@@ -134,7 +134,7 @@
 
             $.ajax({
                 url: '/home/search',
-                type: 'POST',
+                method: 'post'
                 data: {
                     source: source,
                     destination: destination,

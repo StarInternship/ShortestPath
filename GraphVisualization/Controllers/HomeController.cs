@@ -18,7 +18,7 @@ namespace GraphVisualization.Controllers
             return null;
         }
 
-        [HttpGet]
+        [HttpPost]
         public JsonResult GetGraphsList() =>Json(MainController.Instance.GetGraphsList());
     }
 }
