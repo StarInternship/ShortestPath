@@ -6,13 +6,37 @@
     <h2>ShortWay</h2>
     <p class="lead">Easily find paths in directed and weighted graphs</p>
     <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Graph Name" aria-label="Graph Name" aria-describedby="basic-addon2">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Graph name</span>
+        </div>
+        <input type="text" class="form-control" placeholder="choose" aria-label="Graph Name" aria-describedby="basic-addon2" list="graphs_list" style="max-width: 15%" id="graph_name">
         <div class="input-group-append">
             <button type="button" class="btn btn-outline-info" onclick="importGraph()">Import Graph</button>
         </div>
         <button type="button" class="btn btn-outline-success" onclick="importGraph()" style="margin-left: 0.5%">Show Main Graph</button>
     </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Source</span>
+        </div>
+        <input type="text" placeholder="choose" class="form-control" list="nodes_list" style="max-width: 10%" id="source_node">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Destination</span>
+        </div>
+        <input type="text" placeholder="choose" class="form-control" list="nodes_list" style="max-width: 10%" id="destination_node">
+    </div>
 </div>
+
+<datalist id="nodes_list">
+    <option value="0">0</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+</datalist>
+
+<datalist id="graphs_list">
+    <option value="graph1">graph1</option>
+    <option value="graph2">graph2</option>
+</datalist>
 
 @section scripts {
     <script>
@@ -26,9 +50,9 @@
 
             ogma.addEdges([{ source: 'n0', target: 'n0' }, { source: 'n0', target: 'n0' }]);
             */
-             var ogma = new Ogma({
+            var ogma = new Ogma({
                 container: 'graph-container'
-             });
+            });
 
             ogma.parse.jsonFromUrl('../../files/graph.json').then(function (graph) {
                 ogma.setGraph(graph).then(fu;
