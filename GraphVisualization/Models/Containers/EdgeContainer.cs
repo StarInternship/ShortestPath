@@ -16,7 +16,7 @@ namespace GraphVisualization.Models
             this.source = edge.From.Index;
             this.target = edge.To.Index;
             this.id = edge.ToString();
-
+            attributes = new EdgeAttributes(edge);
         }
 
     }

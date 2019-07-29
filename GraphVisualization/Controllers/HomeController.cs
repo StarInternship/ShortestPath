@@ -16,6 +16,10 @@ namespace GraphVisualization.Controllers
         public JsonResult GetGraphsList() => Json(MainController.Instance.GetGraphsList());
 
         [HttpPost]
-        public JsonResult ImportGraph(string graphName) => Json(MainController.Instance.ImportGraph(graphName));
+        public JsonResult ImportGraph(string graphName)
+        {
+            JsonResult json = Json(MainController.Instance.ImportGraph(graphName));
+            return json;
+        }
     }
 }

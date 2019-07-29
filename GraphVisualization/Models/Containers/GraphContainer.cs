@@ -17,7 +17,7 @@ namespace GraphVisualization.Models
             Random random = new Random();
             foreach (Node node in graph.Nodes.Values)
             {
-                nodes.Add(new NodeContainer(node.Index, random.Next(), random.Next()));
+                nodes.Add(new NodeContainer(node.Index, random.Next()%400, random.Next()%400));
             }
 
             foreach (Edge edge in graph.AllEdges)
