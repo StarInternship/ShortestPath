@@ -25,6 +25,8 @@
         </div>
         <input type="text" placeholder="choose" class="form-control" list="nodes_list" style="max-width: 10%" id="destination_node">
     </div>
+
+    <div id="graph-container"></div>
 </div>
 
 <datalist id="nodes_list">
@@ -42,30 +44,33 @@
     <script>
         $(document).ready(() => {
 
-            /*var g = randomGraph(100, 1000);
+            var g = randomGraph(100, 1000);
             var ogma = new Ogma({
                 graph: g,
                 container: 'graph-container'
             });
 
             ogma.addEdges([{ source: 'n0', target: 'n0' }, { source: 'n0', target: 'n0' }]);
-            */
-            var ogma = new Ogma({
-                container: 'graph-container'
-            });
-
-            ogma.parse.jsonFromUrl('../../files/graph.json').then(function (graph) {
-                ogma.setGraph(graph).then(fu;
-                ogma.view.locateGraph();
-                console.log('import done');
-            });
-
             ogma.export.json({
                 pretty: true
             }).then(function () {
                 console.log('Graph exported.')
             });
         });
+
+        function loadGraph(s) {
+            var ogma = new Ogma({
+                container: 'graph-container'
+            });
+
+            ogma.parse.jsonFromUrl('../../files/' + s).then(function (graph) {
+                ogma.setGraph(graph).then(
+                ogma.view.locateGraph();
+                console.log('import done');
+            });
+
+            return ogma;
+        }
 
         function randomGraph(N, E) {
             var g = { nodes: [], edges: [] };
