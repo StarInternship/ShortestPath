@@ -27,5 +27,10 @@ namespace GraphVisualization.Controllers
             }
             return list;
         }
+
+        public object ImportGraph(string graphName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
