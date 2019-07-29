@@ -62,16 +62,38 @@
 
 @section scripts {
     <script>
+        const defaultNodeColor = 'yellow';
+        const defaultEdgeColor = 'black';
+        const inPathNodeColor = 'red';
+        const inPathEdgeColor = "green"
+        var ogma;
+        var currentSubgraph;
+
         $(document).ready(() => {
             getGraphList();
 
             var g = randomGraph(10, 50);
-            var ogma = new Ogma({
+            ogma = new Ogma({
                 graph: g,
                 container: 'graph-container'
             });
 
+            ogma.styles.addNodeRule({
+                color: n => defaultNodeColor
+            });
+            ogma.styles.addEdgeRule({
+                shape: function (e) {
+                    return {
+                        type: 'triangle',
+                        style: 'plain',
+                        head: 'arrow',
+                        tail: null
+                    }
+                }
+            })
+
             ogma.addEdges([{ source: 'n0', target: 'n0' }, { source: 'n0', target: 'n0' }]);
+
             //ogma.export.json({
             //    pretty: true
             //}).then(function () {
@@ -112,18 +134,40 @@
 
                 $('#nodes_list').html('');
                 $.each(graph.nodes, (index, node) => {
-                    $('#nodes_list').append('<option value="' + node + '">' + node + '</option>');
+                    $('#nodes_list').append('<option value="' + node.attributes.text + '">' + node.attributes.text + '</option>');
+                    node.attributes.color = defaultNodeColor;
                 });
 
-                new Ogma({
+                ogma = new Ogma({
                     graph: graph,
                     container: 'graph-container'
                 });
+
+                currentSubgraph = { nodes: [], edges: [] };
+
+                ogma.styles.addNodeRule({
+                    color: n => defaultNodeColor
+                });
+                ogma.styles.addEdgeRule({
+                    shape: function (e) {
+                        return {
+                            type: 'triangle',
+                            style: 'plain',
+                            head: 'arrow',
+                            tail: null
+                        }
+                    }
+                })
             });
         }
 
         function showMainGraph() {
-
+            $.each(currentSubgraph.nodes, (index, node) => {
+                ogma.getNode(node.getId()).setAttributes({ color: defaultNodeColor })
+            });
+            $.each(currentSubgraph.edges, (index, edge) => {
+                ogma.getEdge(edge.getId()).setAttributes({ color: defaultEdgeColor })
+            });
         }
 
         function search() {
@@ -142,7 +186,13 @@
                     findAllPaths: findAllPaths
                 }
             }).done(subgraph => {
-
+                currentSubgraph = subgraph;
+                $.each(currentSubgraph.nodes, (index, node) => {
+                    ogma.getNode(node.getId()).setAttributes({ color: inPathNodeColor })
+                });
+                $.each(currentSubgraph.edges, (index, edge) => {
+                    ogma.getEdge(edge.getId()).setAttributes({ color: inPathEdgeColor })
+                });
             });
         }
 
@@ -166,7 +216,7 @@
                 g.nodes.push({
                     id: 'n' + i,
                     attributes: {
-                        x: Math.random() * 1000,
+                        x: i * 200,
                         y: Math.random() * 1000,
                         text: 'n' + i,
                         radius: 5 + 10 * Math.random()
