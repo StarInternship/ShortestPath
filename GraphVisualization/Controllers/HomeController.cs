@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿
+
 using System.Web.Mvc;
 
 namespace GraphVisualization.Controllers
@@ -26,5 +24,19 @@ namespace GraphVisualization.Controllers
 
             return View();
         }
+
+        [HttpPost]
+        public JsonResult Search(string query)
+        {
+            return null;
+        }
+
+        [HttpGet]
+        public GraphsList GetGraphsList()
+        {
+            return MainController.Instance.GetGraphsList();
+        }
+
+        
     }
 }
