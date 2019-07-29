@@ -6,12 +6,47 @@
     <h1>ShortWay</h1>
     <p class="lead">Easily find paths in directed and weighted graphs</p>
 </div>
+<div id="graph-container"></div>
+
 
 @section scripts {
+
     <script>
         $(document).ready(() => {
 
+            var g = randomGraph(100, 100);
+            var ogma = new Ogma({
+                graph: g,
+                container: 'graph-container'
+            });
+
+            ogma.addEdges([{ source: 'n0', target: 'n0' }, { source: 'n0', target: 'n0' }]);
+
         });
+
+        function randomGraph(N, E) {
+            var g = { nodes: [], edges: [] };
+            for (var i = 0; i < N; i++) {
+                g.nodes.push({
+                    id: 'n' + i,
+                    attributes: {
+                        x: Math.random() * 1000,
+                        y: Math.random() * 1000,
+                        text: 'n' + i,
+                        radius: 5 + 10 * Math.random()
+                    }
+                });
+            }
+            for (var i = 0; i < E; i++) {
+                g.edges.push({
+                    id: 'e' + i,
+                    source: 'n' + (Math.random() * N | 0),
+                    target: 'n' + (Math.random() * N | 0),
+                    attributes: { text: 'edge' + i }
+                });
+            }
+            return g;
+        }
 
     </script>
 }
