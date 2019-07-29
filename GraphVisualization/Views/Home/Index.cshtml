@@ -5,14 +5,16 @@
 <div class="jumbotron">
     <h2>ShortWay</h2>
     <p class="lead">Easily find paths in directed and weighted graphs</p>
-    <button type="button" class="btn btn-outline-info" onclick="importGraph()">Import Graph</button>
-
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Graph Name" aria-label="Graph Name" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+            <button type="button" class="btn btn-outline-info" onclick="importGraph()">Import Graph</button>
+        </div>
+        <button type="button" class="btn btn-outline-success" onclick="importGraph()" style="margin-left: 0.5%">Show Main Graph</button>
+    </div>
 </div>
-<div id="graph-container"></div>
-
 
 @section scripts {
-
     <script>
         $(document).ready(() => {
 
