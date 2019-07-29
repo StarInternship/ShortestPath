@@ -7,7 +7,7 @@ namespace ShortestPath.models
     /// <summary>
     /// A .csv file graph reader
     /// </summary>
-   public class GraphReader
+    public class GraphReader
     {
         /// <summary>
         /// .csv row pattern
@@ -77,5 +77,6 @@ namespace ShortestPath.models
             }
             return new ResultGraph();
         }
+
     }
 }

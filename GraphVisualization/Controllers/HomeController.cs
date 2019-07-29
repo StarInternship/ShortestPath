@@ -13,12 +13,6 @@ namespace GraphVisualization.Controllers
         }
 
         [HttpPost]
-        public JsonResult Search(string query)
-        {
-            return null;
-        }
-
-        [HttpPost]
         public JsonResult GetGraphsList() => Json(MainController.Instance.GetGraphsList());
 
         [HttpPost]
