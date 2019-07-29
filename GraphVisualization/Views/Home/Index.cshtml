@@ -18,7 +18,7 @@
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
             </button>
         </div>
-        <span id="main_graph_button" style="margin-left: 0.5%">
+        <span id="main_graph_wrapper" style="margin-left: 0.5%">
             <button class="btn btn-outline-danger" type="button" disabled>
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
             </button>
@@ -112,8 +112,8 @@
                 $('#import_button').html(
                     '<button type="button" class="btn btn-outline-info" onclick="importGraph()">Import Graph</button>'
                 );
-                $('#main_graph_button').html(
-                    '<button type="button" class="btn btn-outline-danger" onclick="showMainGraph()" disabled>Show Main Graph</button>'
+                $('#main_graph_wrapper').html(
+                    '<button type="button" class="btn btn-outline-danger" onclick="showMainGraph()" disabled id="main_graph_button">Show Main Graph</button>'
                 );
             });
         }
@@ -158,7 +158,7 @@
                             width: 3,
                             color: defaultEdgeColor,
                             shape: {
-                                type: 'triangle',
+                                type: 'line',
                                 style: 'plain',
                                 head: 'arrow',
                                 tail: null
