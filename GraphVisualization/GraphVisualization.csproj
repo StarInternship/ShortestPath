@@ -124,6 +124,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Edge.cs" />
+    <Compile Include="Models\Graph.cs" />
+    <Compile Include="Models\GraphReader.cs" />
+    <Compile Include="Models\Node.cs" />
+    <Compile Include="Models\PathFinder.cs" />
+    <Compile Include="Models\PriorityQueue.cs" />
+    <Compile Include="Models\ResultGraph.cs" />
+    <Compile Include="Models\ResultWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -165,7 +173,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
