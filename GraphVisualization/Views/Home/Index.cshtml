@@ -16,14 +16,29 @@
     <script>
         $(document).ready(() => {
 
-            var g = randomGraph(100, 100);
+            /*var g = randomGraph(100, 1000);
             var ogma = new Ogma({
                 graph: g,
                 container: 'graph-container'
             });
 
             ogma.addEdges([{ source: 'n0', target: 'n0' }, { source: 'n0', target: 'n0' }]);
+            */
+             var ogma = new Ogma({
+                container: 'graph-container'
+             });
 
+            ogma.parse.jsonFromUrl('../../files/graph.json').then(function (graph) {
+                ogma.setGraph(graph).then(fu;
+                ogma.view.locateGraph();
+                console.log('import done');
+            });
+
+            ogma.export.json({
+                pretty: true
+            }).then(function () {
+                console.log('Graph exported.')
+            });
         });
 
         function randomGraph(N, E) {
@@ -50,7 +65,7 @@
             return g;
         }
 
-         function importGraph() {
+        function importGraph() {
 
         }
 
