@@ -12,6 +12,8 @@
         </div>
         <button type="button" class="btn btn-outline-success" onclick="importGraph()" style="margin-left: 0.5%">Show Main Graph</button>
     </div>
+
+    <div id="graph-container"></div>
 </div>
 
 @section scripts {
@@ -25,23 +27,26 @@
             });
 
             ogma.addEdges([{ source: 'n0', target: 'n0' }, { source: 'n0', target: 'n0' }]);
-            
-             /*var ogma = new Ogma({
-                container: 'graph-container'
-             });
-
-            ogma.parse.jsonFromUrl('../../files/graph.json').then(function (graph) {
-                ogma.setGraph(graph).then(fu;
-                ogma.view.locateGraph();
-                console.log('import done');
-            });*/
-
             ogma.export.json({
                 pretty: true
             }).then(function () {
                 console.log('Graph exported.')
             });
         });
+
+        function loadGraph(s) {
+            var ogma = new Ogma({
+                container: 'graph-container'
+            });
+
+            ogma.parse.jsonFromUrl('../../files/' + s).then(function (graph) {
+                ogma.setGraph(graph).then(
+                ogma.view.locateGraph();
+                console.log('import done');
+            });
+
+            return ogma;
+        }
 
         function randomGraph(N, E) {
             var g = { nodes: [], edges: [] };
