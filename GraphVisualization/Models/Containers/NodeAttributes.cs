@@ -8,9 +8,9 @@ namespace GraphVisualization.Models.Containers
     public class NodeAttributes
     {
         
-        string text { get; set; }
-        int x { get; set; }
-        int y { get; set; }
+        public string text { get; set; }
+        public int x { get; set; }
+        public int y { get; set; }
 
 
         public NodeAttributes(string index ,int x, int y)

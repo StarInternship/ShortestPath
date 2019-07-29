@@ -132,34 +132,47 @@
                 $('#main_graph_button').attr('disabled', false);
                 $('#search_button').attr('disabled', false);
 
+                var g = { nodes: [], edges: [] };
                 $('#nodes_list').html('');
                 $.each(graph.nodes, (index, node) => {
+                    g.nodes.push({
+                        id: node.id,
+                        attributes: {
+                            x: node.attributes.x,
+                            y: node.attributes.y,
+                            text: node.attributes.text,
+                            radius: 10,
+                            color: defaultNodeColor
+                        }
+                    });
                     $('#nodes_list').append('<option value="' + node.attributes.text + '">' + node.attributes.text + '</option>');
-                    node.attributes.color = defaultNodeColor;
+                });
+
+                $.each(graph.edges, (index, edge) => {
+                    g.edges.push({
+                        id: edge.id,
+                        source: edge.source,
+                        target: edge.target,
+                        attributes: {
+                            text: edge.attributes.text,
+                            width: 3,
+                            color: defaultEdgeColor,
+                            shape: {
+                                type: 'triangle',
+                                style: 'plain',
+                                head: 'arrow',
+                                tail: null
+                            }
+                        }
+                    });
                 });
 
                 ogma = new Ogma({
-                    graph: graph,
+                    graph: g,
                     container: 'graph-container'
                 });
 
                 currentSubgraph = { nodes: [], edges: [] };
-
-                ogma.styles.addNodeRule({
-                    color: n => defaultNodeColor,
-                    radius: n => 10
-                });
-                ogma.styles.addEdgeRule({
-                    shape: function (e) {
-                        return {
-                            type: 'triangle',
-                            style: 'plain',
-                            head: 'arrow',
-                            tail: null
-                        }
-                    },
-                    width: e => 3
-                })
             });
         }
 

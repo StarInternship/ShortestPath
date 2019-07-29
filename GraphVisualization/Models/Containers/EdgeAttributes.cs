@@ -2,7 +2,7 @@
 
 namespace GraphVisualization.Models
 {
-    internal class EdgeAttributes
+    public class EdgeAttributes
     {
         public string text { get; set; }
 

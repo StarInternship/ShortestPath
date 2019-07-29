@@ -5,10 +5,10 @@ namespace GraphVisualization.Models
 {
     public class EdgeContainer
     {
-        EdgeAttributes attributes { get; set; }
-        string id { get; set; }
-        string source { get; set; }
-        string target { get; set; }
+        public EdgeAttributes attributes { get; set; }
+        public string id { get; set; }
+        public string source { get; set; }
+        public string target { get; set; }
 
 
         public EdgeContainer(Edge edge)

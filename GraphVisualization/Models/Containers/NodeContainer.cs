@@ -5,8 +5,8 @@ namespace GraphVisualization.Models
     public class NodeContainer
     {
 
-        string id { get; set; }
-        NodeAttributes attributes { get; set; }
+        public string id { get; set; }
+        public NodeAttributes attributes { get; set; }
 
 
         public NodeContainer(string index, int x, int y)
