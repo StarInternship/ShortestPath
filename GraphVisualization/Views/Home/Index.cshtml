@@ -72,7 +72,7 @@
         $(document).ready(() => {
             getGraphList();
 
-            var g = randomGraph(10, 50);
+            var g = randomGraph(10, 10);
             ogma = new Ogma({
                 graph: g,
                 container: 'graph-container'
@@ -146,7 +146,8 @@
                 currentSubgraph = { nodes: [], edges: [] };
 
                 ogma.styles.addNodeRule({
-                    color: n => defaultNodeColor
+                    color: n => defaultNodeColor,
+                    radius: n => 10
                 });
                 ogma.styles.addEdgeRule({
                     shape: function (e) {
@@ -156,7 +157,8 @@
                             head: 'arrow',
                             tail: null
                         }
-                    }
+                    },
+                    width: e => 3
                 })
             });
         }
@@ -216,8 +218,8 @@
                 g.nodes.push({
                     id: 'n' + i,
                     attributes: {
-                        x: i * 200,
-                        y: Math.random() * 1000,
+                        x: Math.random() * 400,
+                        y: Math.random() * 400,
                         text: 'n' + i,
                         radius: 5 + 10 * Math.random()
                     }
@@ -228,7 +230,7 @@
                     id: 'e' + i,
                     source: 'n' + (Math.random() * N | 0),
                     target: 'n' + (Math.random() * N | 0),
-                    attributes: { text: 'edge' + i }
+                    attributes: { text: 'edge' + i, width: 3 }
                 });
             }
             return g;
