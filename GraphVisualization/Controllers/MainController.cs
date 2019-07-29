@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GraphVisualization.Models;
+using ShortestPath.models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,27 +12,27 @@ namespace GraphVisualization.Controllers
     public class MainController
     {
         public static MainController Instance { get; } = new MainController();
-        private  string graphPath;
+        private string graphPath = HttpContext.Current.Server.MapPath("~/TestFiles");
         private MainController()
         {
         }
 
         public GraphsList GetGraphsList()
         {
-            graphPath = HttpContext.Current.Server.MapPath("~/TestFiles");
-  
             var list = new GraphsList();
 
-            foreach(string path in Directory.GetFiles(graphPath))
+            foreach (string path in Directory.GetFiles(graphPath))
             {
                 list.List.Add(Path.GetFileName(path));
             }
             return list;
         }
 
-        public object ImportGraph(string graphName)
+        public GraphContainer ImportGraph(string graphName)
         {
-            throw new NotImplementedException();
+            ResultGraph graph = new GraphReader().ReadGraphResult(graphPath + "/" + graphName);
+            return new GraphContainer(graph);
+
         }
     }
 }
