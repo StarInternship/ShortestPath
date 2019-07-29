@@ -7,8 +7,8 @@ namespace GraphVisualization.Models
 {
     public class GraphContainer
     {
-        public List<NodeContainer> nodes { get; set; } = new List<NodeContainer>();
-        public List<EdgeContainer> edges { get; set; } = new List<EdgeContainer>();
-        
+        public List<EdgeContainer> edges { get; } = new List<EdgeContainer>();
+        public List<NodeContainer> nodes { get; } = new List<NodeContainer>();
+
     }
 }
