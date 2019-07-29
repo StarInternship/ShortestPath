@@ -33,12 +33,12 @@ namespace GraphVisualization.Controllers
         }
 
         [HttpGet]
-        public GraphsList GetGraphsList()
+        public JsonResult GetGraphsList()
         {
-            return MainController.Instance.GetGraphsList();
+            return Json(MainController.Instance.GetGraphsList());
         }
 
-        
+
 
     }
 }

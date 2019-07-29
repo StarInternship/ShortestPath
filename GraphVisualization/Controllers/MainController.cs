@@ -18,10 +18,13 @@ namespace GraphVisualization.Controllers
         public GraphsList GetGraphsList()
         {
             graphPath = HttpContext.Current.Server.MapPath("~/TestFiles");
-            return new GraphsList
+  
+            var list = new GraphsList
             {
                 List = new List<string>(Directory.GetFiles(graphPath))
             };
+
+            return list;
         }
     }
 }
