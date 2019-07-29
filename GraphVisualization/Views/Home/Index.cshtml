@@ -45,14 +45,14 @@
 
         <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin-left:0.5%">
             <label class="btn btn-outline-success active">
-                <input type="radio" name="options" id="all_paths" autocomplete="off" checked> All Paths
+                <input type="radio" name="search_type" id="all_paths" autocomplete="off" checked value="all_paths"> All Paths
             </label>
             <label class="btn btn-outline-success">
-                <input type="radio" name="options" id="shortest_paths" autocomplete="off"> Shortest Paths
+                <input type="radio" name="search_type" id="shortest_paths" autocomplete="off" value="shortest_paths"> Shortest Paths
             </label>
         </div>
 
-        <button type="button" class="btn btn-outline-secondary" onclick="search()" style="margin-left:0.5%">Search</button>
+        <button type="button" class="btn btn-outline-secondary" onclick="search()" style="margin-left:0.5%" id="search_button" disabled>Search</button>
     </div>
     <div id="graph-container"></div>
 </div>
@@ -84,14 +84,14 @@
                 url: '/home/getGraphsList',
                 type: 'GET'
             }).done(result => {
-                var list = result.list;
+                var list = result.List;
                 $('#graphs_list').html('');
-                $.each(list, (index, value) => $('#graphs_list').append('<option value="' + value + '">' + value + '</option>'));
+                $.each(list, (index, graphName) => $('#graphs_list').append('<option value="' + graphName + '">' + graphName + '</option>'));
                 $('#import_button').html(
                     '<button type="button" class="btn btn-outline-info" onclick="importGraph()">Import Graph</button>'
                 );
                 $('#main_graph_button').html(
-                    '<button type="button" class="btn btn-outline-danger" onclick="showMainGraph()">Show Main Graph</button>'
+                    '<button type="button" class="btn btn-outline-danger" onclick="showMainGraph()" disabled>Show Main Graph</button>'
                 );
             });
         }
@@ -107,6 +107,14 @@
                     graphName: graphName
                 }
             }).done(graph => {
+                $('#main_graph_button').attr('disabled', false);
+                $('#search_button').attr('disabled', false);
+
+                $('#nodes_list').html('');
+                $.each(graph.nodes, (index, node) => {
+                    $('#nodes_list').append('<option value="' + node + '">' + node + '</option>');
+                });
+
                 new Ogma({
                     graph: graph,
                     container: 'graph-container'
@@ -119,7 +127,23 @@
         }
 
         function search() {
+            var source = $('#source_node').val();
+            var destination = $('#destination_node').val();
+            var maxDistance = $('#max_distance').val();
+            var findAllPaths = $("input[name='search_type']:checked").val() == 'all_paths';
 
+            $.ajax({
+                url: '/home/search',
+                type: 'POST',
+                data: {
+                    source: source,
+                    destination: destination,
+                    maxDistance: maxDistance,
+                    findAllPaths: findAllPaths
+                }
+            }).done(subgraph => {
+
+            });
         }
 
         //function loadGraph(s) {
