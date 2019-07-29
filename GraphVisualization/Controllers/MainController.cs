@@ -19,11 +19,12 @@ namespace GraphVisualization.Controllers
         {
             graphPath = HttpContext.Current.Server.MapPath("~/TestFiles");
   
-            var list = new GraphsList
-            {
-                List = new List<string>(Directory.GetFiles(graphPath))
-            };
+            var list = new GraphsList();
 
+            foreach(string path in Directory.GetFiles(graphPath))
+            {
+                list.List.Add(Path.GetFileName(path));
+            }
             return list;
         }
     }

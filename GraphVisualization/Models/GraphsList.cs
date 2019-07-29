@@ -4,6 +4,6 @@ namespace GraphVisualization.Controllers
 {
     public class GraphsList
     {
-        public List<string> List { get; set; }
+        public List<string> List { get; set; } = new List<string>();
     }
 }
