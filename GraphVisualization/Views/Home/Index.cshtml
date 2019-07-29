@@ -5,72 +5,136 @@
 <div class="jumbotron">
     <h2>ShortWay</h2>
     <p class="lead">Easily find paths in directed and weighted graphs</p>
+
+    <span class="badge badge-light">Graph Properties</span>
+
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">Graph name</span>
+            <span class="input-group-text">Graph name</span>
         </div>
         <input type="text" class="form-control" placeholder="choose" aria-label="Graph Name" aria-describedby="basic-addon2" list="graphs_list" style="max-width: 15%" id="graph_name">
-        <div class="input-group-append">
-            <button type="button" class="btn btn-outline-info" onclick="importGraph()">Import Graph</button>
+        <div class="input-group-append" id="import_button">
+            <button class="btn btn-outline-info" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+            </button>
         </div>
-        <button type="button" class="btn btn-outline-success" onclick="importGraph()" style="margin-left: 0.5%">Show Main Graph</button>
-    </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">Source</span>
-        </div>
-        <input type="text" placeholder="choose" class="form-control" list="nodes_list" style="max-width: 10%" id="source_node">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">Destination</span>
-        </div>
-        <input type="text" placeholder="choose" class="form-control" list="nodes_list" style="max-width: 10%" id="destination_node">
+        <span id="main_graph_button" style="margin-left: 0.5%">
+            <button class="btn btn-outline-danger" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
+            </button>
+        </span>
     </div>
 
+    <span class="badge badge-light">Search Properties</span>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Source</span>
+        </div>
+        <input type="text" placeholder="choose" class="form-control" list="nodes_list" style="max-width: 10%" id="source_node">
+
+        <div class="input-group-prepend" style="margin-left:0.5%">
+            <span class="input-group-text">Destination</span>
+        </div>
+        <input type="text" placeholder="choose" class="form-control" list="nodes_list" style="max-width: 10%" id="destination_node">
+
+        <div class="input-group-prepend" style="margin-left:0.5%">
+            <span class="input-group-text">Max Distance</span>
+        </div>
+        <input type="number" value="2" min="1" max="7" step="1" id="max_distance" style="padding:0.5%">
+
+        <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin-left:0.5%">
+            <label class="btn btn-outline-success active">
+                <input type="radio" name="options" id="all_paths" autocomplete="off" checked> All Paths
+            </label>
+            <label class="btn btn-outline-success">
+                <input type="radio" name="options" id="shortest_paths" autocomplete="off"> Shortest Paths
+            </label>
+        </div>
+
+        <button type="button" class="btn btn-outline-secondary" onclick="search()" style="margin-left:0.5%">Search</button>
+    </div>
     <div id="graph-container"></div>
 </div>
 
-<datalist id="nodes_list">
-    <option value="0">0</option>
-    <option value="1">1</option>
-    <option value="2">2</option>
-</datalist>
-
-<datalist id="graphs_list">
-    <option value="graph1">graph1</option>
-    <option value="graph2">graph2</option>
-</datalist>
+<datalist id="nodes_list"></datalist>
+<datalist id="graphs_list"></datalist>
 
 @section scripts {
     <script>
         $(document).ready(() => {
+            getGraphList();
 
-            var g = randomGraph(100, 1000);
+            var g = randomGraph(10, 50);
             var ogma = new Ogma({
                 graph: g,
                 container: 'graph-container'
             });
 
             ogma.addEdges([{ source: 'n0', target: 'n0' }, { source: 'n0', target: 'n0' }]);
-            ogma.export.json({
-                pretty: true
-            }).then(function () {
-                console.log('Graph exported.')
-            });
+            //ogma.export.json({
+            //    pretty: true
+            //}).then(function () {
+            //    console.log('Graph exported.')
+            //});
         });
 
-        function loadGraph(s) {
-            var ogma = new Ogma({
-                container: 'graph-container'
+        function getGraphList() {
+            $.ajax({
+                url: '/home/getGraphsList',
+                type: 'GET'
+            }).done(result => {
+                var list = result.list;
+                $('#graphs_list').html('');
+                $.each(list, (index, value) => $('#graphs_list').append('<option value="' + value + '">' + value + '</option>'));
+                $('#import_button').html(
+                    '<button type="button" class="btn btn-outline-info" onclick="importGraph()">Import Graph</button>'
+                );
+                $('#main_graph_button').html(
+                    '<button type="button" class="btn btn-outline-danger" onclick="showMainGraph()">Show Main Graph</button>'
+                );
             });
-
-            ogma.parse.jsonFromUrl('../../files/' + s).then(function (graph) {
-                ogma.setGraph(graph).then(
-                ogma.view.locateGraph();
-                console.log('import done');
-            });
-
-            return ogma;
         }
+
+
+        function importGraph() {
+            var graphName = $('#graph_name').val();
+
+            $.ajax({
+                url: '/home/importGraph',
+                type: 'GET',
+                data: {
+                    graphName: graphName
+                }
+            }).done(graph => {
+                new Ogma({
+                    graph: graph,
+                    container: 'graph-container'
+                });
+            });
+        }
+
+        function showMainGraph() {
+
+        }
+
+        function search() {
+
+        }
+
+        //function loadGraph(s) {
+        //    var ogma = new Ogma({
+        //        container: 'graph-container'
+        //    });
+
+        //    ogma.parse.jsonFromUrl('../../files/' + s).then(function (graph) {
+        //        ogma.setGraph(graph).then(
+        //        ogma.view.locateGraph();
+        //        console.log('import done');
+        //    });
+
+        //    return ogma;
+        //}
 
         function randomGraph(N, E) {
             var g = { nodes: [], edges: [] };
@@ -95,10 +159,5 @@
             }
             return g;
         }
-
-        function importGraph() {
-
-        }
-
     </script>
 }
