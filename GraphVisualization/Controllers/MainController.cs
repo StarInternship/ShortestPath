@@ -10,14 +10,18 @@ namespace GraphVisualization.Controllers
     public class MainController
     {
         public static MainController Instance { get; } = new MainController();
-        private readonly string graphPath = HostingEnvironment.MapPath("~/../TestFiles");
+        private  string graphPath;
         private MainController()
         {
         }
 
-        internal string[] GetGraphsList()
+        public GraphsList GetGraphsList()
         {
-            return Directory.GetFiles(graphPath);
+            graphPath = HttpContext.Current.Server.MapPath("~/TestFiles");
+            return new GraphsList
+            {
+                List = new List<string>(Directory.GetFiles(graphPath))
+            };
         }
     }
 }
