@@ -8,7 +8,7 @@ namespace GraphVisualization.Controllers
     public class MainController
     {
         public static MainController Instance { get; } = new MainController();
-        private string graphPath = HttpContext.Current.Server.MapPath("~/TestFiles");
+        private readonly string graphPath = HttpContext.Current.Server.MapPath("~/TestFiles");
         private ResultGraph currentGraph;
         private MainController()
         {

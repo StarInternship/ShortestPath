@@ -48,6 +48,7 @@ namespace ShortestPath.models
             State.DistanceToTarget = double.MaxValue;
             Distance = Double.MaxValue;
             LastInEdges = new List<Edge>();
+            Exploring = false;
         }
 
         /// <summary>
