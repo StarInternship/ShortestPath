@@ -121,6 +121,15 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="yWorks.yFilesNET.Adapter">
+      <HintPath>..\..\libs\yFiles.NET-Complete-5.1.0.2-Evaluation\lib\yWorks.yFilesNET.Adapter.dll</HintPath>
+    </Reference>
+    <Reference Include="yWorks.yFilesNET.Algorithms">
+      <HintPath>..\..\libs\yFiles.NET-Complete-5.1.0.2-Evaluation\lib\yWorks.yFilesNET.Algorithms.dll</HintPath>
+    </Reference>
+    <Reference Include="yWorks.yFilesNET.Viewer">
+      <HintPath>..\..\libs\yFiles.NET-Complete-5.1.0.2-Evaluation\lib\yWorks.yFilesNET.Viewer.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">

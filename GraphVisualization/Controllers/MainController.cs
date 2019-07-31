@@ -1,11 +1,7 @@
 ﻿using GraphVisualization.Models;
 using ShortestPath.models;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Web;
-using System.Web.Hosting;
 
 namespace GraphVisualization.Controllers
 {
@@ -13,6 +9,7 @@ namespace GraphVisualization.Controllers
     {
         public static MainController Instance { get; } = new MainController();
         private string graphPath = HttpContext.Current.Server.MapPath("~/TestFiles");
+        private ResultGraph currentGraph;
         private MainController()
         {
         }
@@ -28,11 +25,15 @@ namespace GraphVisualization.Controllers
             return list;
         }
 
+        public GraphContainer Search(string source, string destination, int maxDistance, bool findAllPaths) =>
+            new GraphContainer(
+                new PathFinder(currentGraph, source, destination, findAllPaths, maxDistance).Find()
+            );
+
         public GraphContainer ImportGraph(string graphName)
         {
-            ResultGraph graph = new GraphReader().ReadGraphResult(graphPath + "/" + graphName);
-            return new GraphContainer(graph);
-
+            currentGraph = new GraphReader().ReadGraphResult(graphPath + "/" + graphName);
+            return new GraphContainer(currentGraph);
         }
     }
 }

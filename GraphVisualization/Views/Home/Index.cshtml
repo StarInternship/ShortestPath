@@ -12,7 +12,7 @@
         <div class="input-group-prepend">
             <span class="input-group-text">Graph name</span>
         </div>
-        <input type="text" class="form-control" placeholder="choose" aria-label="Graph Name" aria-describedby="basic-addon2" list="graphs_list" style="max-width: 15%" id="graph_name">
+        <input type="text" class="form-control" placeholder="choose" aria-label="Graph Name" aria-describedby="basic-addon2" list="graphs_list" id="graph_name">
         <div class="input-group-append" id="import_button">
             <button class="btn btn-outline-info" type="button" disabled>
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
@@ -65,40 +65,13 @@
         const defaultNodeColor = 'yellow';
         const defaultEdgeColor = 'black';
         const inPathNodeColor = 'red';
-        const inPathEdgeColor = "green"
+        const inPathEdgeColor = "green";
         var ogma;
         var currentSubgraph;
+        var showingPath = false;
 
         $(document).ready(() => {
             getGraphList();
-
-            var g = randomGraph(10, 10);
-            ogma = new Ogma({
-                graph: g,
-                container: 'graph-container'
-            });
-
-            ogma.styles.addNodeRule({
-                color: n => defaultNodeColor
-            });
-            ogma.styles.addEdgeRule({
-                shape: function (e) {
-                    return {
-                        type: 'triangle',
-                        style: 'plain',
-                        head: 'arrow',
-                        tail: null
-                    }
-                }
-            })
-
-            ogma.addEdges([{ source: 'n0', target: 'n0' }, { source: 'n0', target: 'n0' }]);
-
-            //ogma.export.json({
-            //    pretty: true
-            //}).then(function () {
-            //    console.log('Graph exported.')
-            //});
         });
 
         function getGraphList() {
@@ -129,6 +102,7 @@
                     graphName: graphName
                 }
             }).done(graph => {
+                showingPath = false;
                 $('#main_graph_button').attr('disabled', false);
                 $('#search_button').attr('disabled', false);
 
@@ -177,12 +151,15 @@
         }
 
         function showMainGraph() {
-            $.each(currentSubgraph.nodes, (index, node) => {
-                ogma.getNode(node.getId()).setAttributes({ color: defaultNodeColor })
-            });
-            $.each(currentSubgraph.edges, (index, edge) => {
-                ogma.getEdge(edge.getId()).setAttributes({ color: defaultEdgeColor })
-            });
+            if (showingPath) {
+                showingPath = false;
+                $.each(currentSubgraph.nodes, (index, node) => {
+                    ogma.getNode(node.id).setAttributes({ color: defaultNodeColor })
+                });
+                $.each(currentSubgraph.edges, (index, edge) => {
+                    ogma.getEdge(edge.id).setAttributes({ color: defaultEdgeColor })
+                });
+            }
         }
 
         function search() {
@@ -190,6 +167,10 @@
             var destination = $('#destination_node').val();
             var maxDistance = $('#max_distance').val();
             var findAllPaths = $("input[name='search_type']:checked").val() == 'all_paths';
+
+            if (showingPath) {
+                showMainGraph();
+            }
 
             $.ajax({
                 url: '/home/search',
@@ -201,52 +182,18 @@
                     findAllPaths: findAllPaths
                 }
             }).done(subgraph => {
+                showingPath = true;
                 currentSubgraph = subgraph;
                 $.each(currentSubgraph.nodes, (index, node) => {
-                    ogma.getNode(node.getId()).setAttributes({ color: inPathNodeColor })
+                    ogma.getNode(node.id).setAttributes({ color: inPathNodeColor })
+                    console.log(node.id);
                 });
+                console.log('edges');
                 $.each(currentSubgraph.edges, (index, edge) => {
-                    ogma.getEdge(edge.getId()).setAttributes({ color: inPathEdgeColor })
+                    ogma.getEdge(edge.id).setAttributes({ color: inPathEdgeColor })
+                    console.log(edge.id);
                 });
             });
-        }
-
-        //function loadGraph(s) {
-        //    var ogma = new Ogma({
-        //        container: 'graph-container'
-        //    });
-
-        //    ogma.parse.jsonFromUrl('../../files/' + s).then(function (graph) {
-        //        ogma.setGraph(graph).then(
-        //        ogma.view.locateGraph();
-        //        console.log('import done');
-        //    });
-
-        //    return ogma;
-        //}
-
-        function randomGraph(N, E) {
-            var g = { nodes: [], edges: [] };
-            for (var i = 0; i < N; i++) {
-                g.nodes.push({
-                    id: 'n' + i,
-                    attributes: {
-                        x: Math.random() * 400,
-                        y: Math.random() * 400,
-                        text: 'n' + i,
-                        radius: 5 + 10 * Math.random()
-                    }
-                });
-            }
-            for (var i = 0; i < E; i++) {
-                g.edges.push({
-                    id: 'e' + i,
-                    source: 'n' + (Math.random() * N | 0),
-                    target: 'n' + (Math.random() * N | 0),
-                    attributes: { text: 'edge' + i, width: 3 }
-                });
-            }
-            return g;
         }
     </script>
 }

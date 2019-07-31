@@ -11,8 +11,8 @@ namespace GraphVisualization.Models
 
         public NodeContainer(string index, int x, int y)
         {
-            this.id= index;
-            this.attributes = new NodeAttributes(index , x, y);
+            id= index;
+            attributes = new NodeAttributes(index , x, y);
         }
 
     }

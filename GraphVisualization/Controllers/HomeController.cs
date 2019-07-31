@@ -21,5 +21,8 @@ namespace GraphVisualization.Controllers
             JsonResult json = Json(MainController.Instance.ImportGraph(graphName));
             return json;
         }
+
+        [HttpPost]
+        public JsonResult Search(string source, string destination, int maxDistance, bool findAllPaths) => Json(MainController.Instance.Search(source, destination, maxDistance, findAllPaths));
     }
 }
