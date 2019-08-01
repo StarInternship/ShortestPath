@@ -36,6 +36,8 @@ namespace ShortestPath.models
         /// true if this node is exploring with path finder
         /// </summary>
         public bool Exploring { get; set; }
+        public List<Edge> LastOutEdges { get; set; } = new List<Edge>();
+
 
         /// <summary>
         /// sets index of node
@@ -74,6 +76,12 @@ namespace ShortestPath.models
         public void AddLastInEdge(Edge edge) => LastInEdges.Add(edge);
 
         /// <summary>
+        /// adds an out edge of this node in current discovered shortest path.
+        /// </summary>
+        /// <param name="edge">in edge</param>
+        public void AddLastOutEdge(Edge edge) => LastOutEdges.Add(edge);
+
+        /// <summary>
         /// clears and add an edge when a shorter path is discovered
         /// </summary>
         /// <param name="edge">new edge</param>
@@ -82,6 +90,17 @@ namespace ShortestPath.models
             LastInEdges.Clear();
             LastInEdges.Add(edge);
             Distance = edge.From.Distance + edge.Weight;
+        }
+        /// <summary>
+        /// clears and add an edge when a shorter path is discovered
+        /// </summary>
+        /// <param name="edge">new edge</param>
+
+        public void RecreateOutEdges(Edge edge)
+        {
+            LastOutEdges.Clear();
+            LastOutEdges.Add(edge);
+            Distance = edge.To.Distance + edge.Weight;
         }
 
         public override bool Equals(object obj)
