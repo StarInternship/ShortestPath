@@ -136,7 +136,7 @@ namespace ShortestPath.models
         /// <param name="edge">exploring edge</param>
         private void UpdateOutEdgeDestination(PriorityQueue currentNodes, Edge edge)
         {
-            if (PosiblePath(edge.To, edge.Weight))
+            if (PosiblePath(edge.From, edge.Weight))
             {
                 if (IsAShorterPath(edge.From, edge.To, edge.Weight))
                 {
