@@ -67,7 +67,7 @@ namespace ShortestPath.models
             graph.Reset();
             if (findAllPaths)
             {
-                ExploreAllPaths(source, 0);
+                ExploreAllPathsWithUndirected(source, 0);
             }
             else
             {
@@ -98,7 +98,6 @@ namespace ShortestPath.models
                 );
                 if (!directed)
                 {
-
                     node.Ins.ForEach(
                         edge => UpdateInEdgeSource(currentNodes, edge)
                     );
@@ -114,7 +113,7 @@ namespace ShortestPath.models
         /// <param name="edge">exploring edge</param>
         private void UpdateInEdgeSource(PriorityQueue currentNodes, Edge edge)
         {
-            if (PosiblePath(edge.From, edge.Weight))
+            if (PosiblePath(edge.To, edge.Weight))
             {
                 if (IsAShorterPath(edge.To, edge.From, edge.Weight))
                 {
@@ -123,7 +122,7 @@ namespace ShortestPath.models
                 }
                 else if (IsEqualPath(edge.To, edge.From, edge.Weight))
                 {
-                    edge.From.AddLastInEdge(edge);
+                    edge.From.AddLastOutEdge(edge);
                 }
             }
         }
@@ -176,7 +175,7 @@ namespace ShortestPath.models
         /// </summary>
         private void CreateResultSubgraph()
         {
-            var currentNodes = new HashSet<Node> { target , source};
+            var currentNodes = new HashSet<Node> { target };
 
             while (currentNodes.Count > 0)
             {
@@ -203,6 +202,77 @@ namespace ShortestPath.models
                 }
             }
         }
+
+
+        private State ExploreAllPathsWithUndirected(Node currentNode, double currentDistance)
+        {
+            if (currentNode.State.ReachState == ReachState.UNREACHABLE
+                && currentDistance >= currentNode.Distance)
+            {
+                return currentNode.State;
+            }
+
+            if (currentNode.Equals(target))
+            {
+                return ReachedToTarget(currentDistance);
+            }
+
+            currentNode.State.ReachState = ReachState.UNREACHABLE;
+            currentNode.Distance = currentDistance;
+
+            currentNode.Exploring = true;
+            currentNode.Outs.ForEach(edge => ExploreEdgeWithUndirected(currentDistance, edge));
+            if (!directed)
+                currentNode.Ins.ForEach(edge => ExploreBackWardEdgeWithUndirected(currentDistance, edge));
+            currentNode.Exploring = false;
+
+            return currentNode.State;
+        }
+
+        /// <summary>
+        /// explore current edge, in find all paths
+        /// </summary>
+        /// <param name="currentDistance">current distance to source</param>
+        /// <param name="edge">exploring edge</param>
+        private void ExploreEdgeWithUndirected(double currentDistance, Edge edge)
+        {
+            if (currentDistance + 1 > maxDistance) return;
+
+            if (edge.To.Exploring)
+            {
+                return;
+            }
+
+            var state = ExploreAllPathsWithUndirected(edge.To, currentDistance + 1);
+
+            if (state.ReachState == ReachState.REACHED)
+            {
+                edge.From.State.ReachState = state.ReachState;
+                edge.From.State.DistanceToTarget = Math.Min(edge.From.State.DistanceToTarget, state.DistanceToTarget + 1);
+                result.AddEdge(edge.From.Index, edge.To.Index, edge.Weight);
+            }
+        }
+
+        private void ExploreBackWardEdgeWithUndirected(double currentDistance, Edge edge)
+        {
+            if (currentDistance + 1 > maxDistance) return;
+
+            if (edge.From.Exploring)
+            {
+                return;
+            }
+
+            var state = ExploreAllPathsWithUndirected(edge.From, currentDistance + 1);
+
+            if (state.ReachState == ReachState.REACHED)
+            {
+                edge.To.State.ReachState = state.ReachState;
+                edge.To.State.DistanceToTarget = Math.Min(edge.To.State.DistanceToTarget, state.DistanceToTarget + 1);
+                result.AddEdge(edge.From.Index, edge.To.Index, edge.Weight);
+            }
+        }
+
+
 
         /// <summary>
         /// explores and finds all paths.
