@@ -30,6 +30,11 @@ namespace ShortestPath.models
         /// </summary>
         private readonly double maxDistance;
         /// <summary>
+        /// directed path search?
+        /// </summary>
+        private readonly bool directed;
+
+        /// <summary>
         /// Result subgraph will be saved here.
         /// </summary>
         private readonly Graph result = new Graph();
@@ -42,13 +47,14 @@ namespace ShortestPath.models
         /// <param name="target">The target node of path.</param>
         /// <param name="findAllPaths">A boolean that shows to finder to find shortest paths or all paths.</param>
         /// <param name="maxDistance">If finder is finding all paths, this variable tells it the max distance of the paths.</param>
-        public PathFinder(Graph graph, string source, string target, bool findAllPaths, double maxDistance)
+        public PathFinder(Graph graph, string source, string target, bool findAllPaths, double maxDistance, bool directed)
         {
             this.graph = graph;
             this.source = graph.GetNode(source);
             this.target = graph.GetNode(target);
             this.findAllPaths = findAllPaths;
             this.maxDistance = maxDistance;
+            this.directed = directed;
         }
 
         /// <summary>

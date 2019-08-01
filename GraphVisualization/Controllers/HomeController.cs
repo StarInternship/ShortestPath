@@ -23,6 +23,7 @@ namespace GraphVisualization.Controllers
         }
 
         [HttpPost]
-        public JsonResult Search(string source, string destination, int maxDistance, bool findAllPaths) => Json(MainController.Instance.Search(source, destination, maxDistance, findAllPaths));
+        public JsonResult Search(string source, string destination, int maxDistance, bool findAllPaths, bool directed) => 
+            Json(MainController.Instance.Search(source, destination, maxDistance, findAllPaths, directed));
     }
 }
