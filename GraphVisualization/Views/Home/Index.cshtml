@@ -62,7 +62,7 @@
 
         <button type="button" class="btn btn-outline-secondary" onclick="search()" style="margin-left:0.5%" id="search_button" disabled>Search</button>
     </div>
-    <div id="graph-container"></div>
+    <div id="graph-container" style="min-height: 700px"></div>
 </div>
 
 <datalist id="nodes_list"></datalist>
@@ -71,11 +71,15 @@
 @section scripts {
     <script>
         const defaultNodeColor = 'yellow';
-        const defaultEdgeColor = 'black';
+        const defaultEdgeColor = 'rgba(0, 0, 0, 0.1)';
         const inPathNodeColor = 'red';
         const inPathEdgeColor = 'green';
         const sourceColor = 'blue';
         const destinationColor = 'blue';
+        const defaultNodeRadius = 20;
+        const inPathNodeRadius = 70;
+        const defaultEdgeWidth = 5;
+        const InPathEdgeWidth = 30;
         const shape = {
             'directed': {
                 type: 'line',
@@ -93,10 +97,11 @@
         var ogma;
         var currentSubgraph;
         var showingPath = false;
+        var graphSize;
 
         $(document).ready(() => {
             getGraphList();
-            $("input[name='graph_type']").change(() => redrawEdges() );
+            $("input[name='graph_type']").change(() => redrawEdges());
         });
 
         function redrawEdges() {
@@ -133,19 +138,21 @@
                 }
             }).done(graph => {
                 showingPath = false;
+                graphSize = 0;
                 $('#main_graph_button').attr('disabled', false);
                 $('#search_button').attr('disabled', false);
 
                 var g = { nodes: [], edges: [] };
                 $('#nodes_list').html('');
                 $.each(graph.nodes, (index, node) => {
+                    graphSize++;
                     g.nodes.push({
                         id: node.id,
                         attributes: {
                             x: node.attributes.x,
                             y: node.attributes.y,
                             text: node.attributes.text,
-                            radius: 10,
+                            radius: defaultNodeRadius / 10,
                             color: defaultNodeColor
                         }
                     });
@@ -159,7 +166,7 @@
                         target: edge.target,
                         attributes: {
                             text: edge.attributes.text,
-                            width: 3,
+                            width: defaultEdgeWidth / 10,
                             color: defaultEdgeColor,
                             shape: shape[$("input[name='graph_type']:checked").val()]
                         }
@@ -171,6 +178,14 @@
                     container: 'graph-container'
                 });
 
+                ogma.layouts.forceLink()
+                    .then(() => {
+                        ogma.view.locateGraph({
+                            easing: 'linear',
+                            duration: 1000
+                        });
+                    });
+
                 currentSubgraph = { nodes: [], edges: [] };
             });
         }
@@ -179,10 +194,10 @@
             if (showingPath) {
                 showingPath = false;
                 $.each(currentSubgraph.nodes, (index, node) => {
-                    ogma.getNode(node.id).setAttributes({ color: defaultNodeColor })
+                    ogma.getNode(node.id).setAttributes({ radius: defaultNodeRadius / 10, color: defaultNodeColor })
                 });
                 $.each(currentSubgraph.edges, (index, edge) => {
-                    ogma.getEdge(edge.id).setAttributes({ color: defaultEdgeColor })
+                    ogma.getEdge(edge.id).setAttributes({ width: defaultEdgeWidth / 10, color: defaultEdgeColor })
                 });
             }
         }
@@ -212,12 +227,12 @@
                 showingPath = true;
                 currentSubgraph = subgraph;
                 $.each(currentSubgraph.nodes, (index, node) => {
-                    ogma.getNode(node.id).setAttributes({ color: node.id == source ? sourceColor : node.id == destination ? destinationColor : inPathNodeColor })
+                    ogma.getNode(node.id).setAttributes({ radius: inPathNodeRadius * Math.sqrt(graphSize * 10000) / 10000, color: node.id == source ? sourceColor : node.id == destination ? destinationColor : inPathNodeColor })
                     console.log(node.id);
                 });
                 console.log('edges');
                 $.each(currentSubgraph.edges, (index, edge) => {
-                    ogma.getEdge(edge.id).setAttributes({ color: inPathEdgeColor })
+                    ogma.getEdge(edge.id).setAttributes({ width: InPathEdgeWidth * Math.sqrt(graphSize * 10000) / 10000, color: inPathEdgeColor })
                     console.log(edge.id);
                 });
             });
