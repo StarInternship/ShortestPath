@@ -27,7 +27,7 @@ namespace GraphVisualization.Controllers
 
         public GraphContainer Search(string source, string destination, int maxDistance, bool findAllPaths, bool directed) =>
             new GraphContainer(
-                new PathFinder(currentGraph, source, destination, findAllPaths, maxDistance, false).Find()
+                new PathFinder(currentGraph, source, destination, findAllPaths, maxDistance, directed).Find()
             );
 
         public GraphContainer ImportGraph(string graphName)
