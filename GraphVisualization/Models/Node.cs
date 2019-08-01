@@ -54,6 +54,7 @@ namespace ShortestPath.models
             State.DistanceToTarget = double.MaxValue;
             Distance = Double.MaxValue;
             LastInEdges = new List<Edge>();
+            LastOutEdges = new List<Edge>();
             Exploring = false;
         }
 
@@ -87,6 +88,8 @@ namespace ShortestPath.models
         /// <param name="edge">new edge</param>
         public void RecreateInEdges(Edge edge)
         {
+            LastOutEdges.Clear();
+
             LastInEdges.Clear();
             LastInEdges.Add(edge);
             Distance = edge.From.Distance + edge.Weight;
@@ -98,6 +101,8 @@ namespace ShortestPath.models
 
         public void RecreateOutEdges(Edge edge)
         {
+            LastInEdges.Clear();
+
             LastOutEdges.Clear();
             LastOutEdges.Add(edge);
             Distance = edge.To.Distance + edge.Weight;
