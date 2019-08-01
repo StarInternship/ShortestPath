@@ -14,6 +14,11 @@ namespace ShortestPath.models
         public Dictionary<string, Node> Nodes { get; } = new Dictionary<string, Node>();
 
         /// <summary>
+        /// set of all edges of result subgraph
+        /// </summary>
+        public HashSet<Edge> AllEdges { get; } = new HashSet<Edge>();
+
+        /// <summary>
         /// create node if does not exist. and returns the node.
         /// </summary>
         /// <param name="index">index of the node</param>
@@ -45,6 +50,8 @@ namespace ShortestPath.models
         {
             Edge edge = new Edge(from, to, weight);
             from.AddOut(edge);
+            to.AddIn(edge);
+            AllEdges.Add(edge);
             return edge;
         }
 
@@ -57,6 +64,17 @@ namespace ShortestPath.models
             {
                 node.Reset();
             }
+        }
+
+        /// <summary>
+        /// returns true if the node of graph is exploring by path finder
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns>true if the node of graph is exploring by path finder</returns>
+        public bool Exploring(string index)
+        {
+            if (!Nodes.ContainsKey(index)) return false;
+            return Nodes[index].Exploring;
         }
     }
 }

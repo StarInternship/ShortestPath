@@ -17,6 +17,10 @@ namespace ShortestPath.models
         /// </summary>
         public List<Edge> Outs { get; } = new List<Edge>();
         /// <summary>
+        /// in edges of the node
+        /// </summary>
+        public List<Edge> Ins { get; } = new List<Edge>();
+        /// <summary>
         /// reach and distance to target state of node
         /// </summary>
         public State State { get; } = new State();
@@ -56,6 +60,12 @@ namespace ShortestPath.models
         /// </summary>
         /// <param name="edge">out edge</param>
         public void AddOut(Edge edge) => Outs.Add(edge);
+
+        /// <summary>
+        /// adds an in edge to the node
+        /// </summary>
+        /// <param name="edge">in edge</param>
+        internal void AddIn(Edge edge) => Ins.Add(edge);
 
         /// <summary>
         /// adds an in edge of this node in current discovered shortest path.

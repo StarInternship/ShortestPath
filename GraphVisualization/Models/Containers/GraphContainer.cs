@@ -12,7 +12,7 @@ namespace GraphVisualization.Models
         public List<NodeContainer> nodes { get; } = new List<NodeContainer>();
 
 
-        public GraphContainer(ResultGraph graph)
+        public GraphContainer(Graph graph)
         {
             Random random = new Random();
             foreach (Node node in graph.Nodes.Values)

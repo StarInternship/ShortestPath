@@ -9,7 +9,7 @@ namespace GraphVisualization.Controllers
     {
         public static MainController Instance { get; } = new MainController();
         private readonly string graphPath = HttpContext.Current.Server.MapPath("~/TestFiles");
-        private ResultGraph currentGraph;
+        private Graph currentGraph;
         private MainController()
         {
         }
@@ -32,7 +32,7 @@ namespace GraphVisualization.Controllers
 
         public GraphContainer ImportGraph(string graphName)
         {
-            currentGraph = new GraphReader().ReadGraphResult(graphPath + "/" + graphName);
+            currentGraph = new GraphReader().ReadGraph(graphPath + "/" + graphName);
             return new GraphContainer(currentGraph);
         }
     }

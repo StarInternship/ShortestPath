@@ -32,7 +32,7 @@ namespace ShortestPath.models
         /// <summary>
         /// Result subgraph will be saved here.
         /// </summary>
-        private readonly ResultGraph result = new ResultGraph();
+        private readonly Graph result = new Graph();
 
         /// <summary>
         /// sets all properties of path finder.
@@ -55,7 +55,7 @@ namespace ShortestPath.models
         /// this method calculates the requested subgraph containig all edges of intended paths
         /// </summary>
         /// <returns>result subgraph</returns>
-        public ResultGraph Find()
+        public Graph Find()
         {
             graph.Reset();
             if (findAllPaths)

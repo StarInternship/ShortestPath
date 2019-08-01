@@ -15,27 +15,6 @@ namespace ShortestPath.models
         private static readonly Regex regex = new Regex(@"^(.+),(.+),(\d+.?\d*)$");
 
         /// <summary>
-        /// reads a graph from a csv file
-        /// </summary>
-        /// <param name="path">path to file</param>
-        /// <returns>result graph</returns>
-        public Graph ReadGraph(string path)
-        {
-            if (File.Exists(path))
-            {
-                string[] edges = File.ReadAllLines(path);
-                Graph graph = new Graph();
-
-                for (int i = 0; i < edges.Length; i++)
-                {
-                    ReadEdge(graph, edges[i]);
-                }
-                return graph;
-            }
-            return new Graph();
-        }
-
-        /// <summary>
         /// reads a line of the file as an edge of a graph
         /// </summary>
         /// <param name="graph">result graph</param>
@@ -56,26 +35,21 @@ namespace ShortestPath.models
         /// </summary>
         /// <param name="path">path to file</param>
         /// <returns>result graph</returns>
-        public ResultGraph ReadGraphResult(string path)
+        public Graph ReadGraph(string path)
         {
             if (File.Exists(path))
             {
                 string[] edges = File.ReadAllLines(path);
-                var graph = new ResultGraph();
+                var graph = new Graph();
 
-                for (int i = 0; i < edges.Length; i++)
+                foreach (var edge in edges)
                 {
-                    var groups = regex.Matches(edges[i])[0].Groups;
-
-                    string source = groups[1].ToString();
-                    string destination = groups[2].ToString();
-                    double weight = int.Parse(groups[3].ToString());
-
-                    graph.AddEdge(source, destination, weight);
+                    ReadEdge(graph, edge);
                 }
+
                 return graph;
             }
-            return new ResultGraph();
+            return new Graph();
         }
 
     }
