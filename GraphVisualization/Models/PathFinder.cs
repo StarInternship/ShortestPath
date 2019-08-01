@@ -47,6 +47,7 @@ namespace ShortestPath.models
         /// <param name="target">The target node of path.</param>
         /// <param name="findAllPaths">A boolean that shows to finder to find shortest paths or all paths.</param>
         /// <param name="maxDistance">If finder is finding all paths, this variable tells it the max distance of the paths.</param>
+        /// <param name="directed">directed path or not</param>
         public PathFinder(Graph graph, string source, string target, bool findAllPaths, double maxDistance, bool directed)
         {
             this.graph = graph;

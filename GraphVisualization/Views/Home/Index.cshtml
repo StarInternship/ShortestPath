@@ -23,6 +23,14 @@
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...
             </button>
         </span>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin-left:0.5%" id="graph_type">
+            <label class="btn btn-outline-dark active">
+                <input type="radio" name="graph_type" id="directed" autocomplete="off" checked value="directed"> Directed
+            </label>
+            <label class="btn btn-outline-dark">
+                <input type="radio" name="graph_type" id="undirected" autocomplete="off" value="undirected"> Undirected
+            </label>
+        </div>
     </div>
 
     <span class="badge badge-light">Search Properties</span>
@@ -68,13 +76,33 @@
         const inPathEdgeColor = 'green';
         const sourceColor = 'blue';
         const destinationColor = 'blue';
+        const shape = {
+            'directed': {
+                type: 'line',
+                style: 'plain',
+                head: 'arrow',
+                tail: null
+            },
+            'undirected': {
+                type: 'line',
+                style: 'plain',
+                head: null,
+                tail: null
+            }
+        };
         var ogma;
         var currentSubgraph;
         var showingPath = false;
 
         $(document).ready(() => {
             getGraphList();
+            $("input[name='graph_type']").change(() => redrawEdges() );
         });
+
+        function redrawEdges() {
+            if (ogma == null) return;
+            ogma.getEdges().forEach((edge, index) => edge.setAttributes({ shape: shape[$("input[name='graph_type']:checked").val()] }));
+        }
 
         function getGraphList() {
             $.ajax({
@@ -133,12 +161,7 @@
                             text: edge.attributes.text,
                             width: 3,
                             color: defaultEdgeColor,
-                            shape: {
-                                type: 'line',
-                                style: 'plain',
-                                head: 'arrow',
-                                tail: null
-                            }
+                            shape: shape[$("input[name='graph_type']:checked").val()]
                         }
                     });
                 });
@@ -169,7 +192,7 @@
             var destination = $('#destination_node').val();
             var maxDistance = $('#max_distance').val();
             var findAllPaths = $("input[name='search_type']:checked").val() == 'all_paths';
-            var directed = true;
+            var directed = $("input[name='graph_type']:checked").val() == 'directed';
 
             if (showingPath) {
                 showMainGraph();
