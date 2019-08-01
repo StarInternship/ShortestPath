@@ -140,6 +140,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Models\BccCompact.cs" />
+    <Compile Include="Models\Component.cs" />
     <Compile Include="Models\Containers\EdgeAttributes.cs" />
     <Compile Include="Models\Containers\EdgeContainer.cs" />
     <Compile Include="Models\Containers\GraphContainer.cs" />
@@ -153,11 +155,11 @@
     <Compile Include="Models\Edge.cs" />
     <Compile Include="Models\Graph.cs" />
     <Compile Include="Models\GraphReader.cs" />
+    <Compile Include="Models\ILayout.cs" />
     <Compile Include="Models\Node.cs" />
     <Compile Include="Models\Containers\NodeContainer.cs" />
     <Compile Include="Models\PathFinder.cs" />
     <Compile Include="Models\PriorityQueue.cs" />
-    <Compile Include="Models\ResultGraph.cs" />
     <Compile Include="Models\ResultWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
