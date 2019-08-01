@@ -94,27 +94,56 @@ namespace ShortestPath.models
                 node.Exploring = true;
 
                 node.Outs.ForEach(
-                    edge => UpdateEdgeDestination(currentNodes, edge)
+                    edge => UpdateOutEdgeDestination(currentNodes, edge)
                 );
+                if (!directed)
+                {
+
+                    node.Ins.ForEach(
+                        edge => UpdateInEdgeSource(currentNodes, edge)
+                    );
+                }
             }
             CreateResultSubgraph();
         }
+
+        /// <summary>
+        /// updates "From" node of an edge.
+        /// </summary>
+        /// <param name="currentNodes">queue of current exploring nodes</param>
+        /// <param name="edge">exploring edge</param>
+        private void UpdateInEdgeSource(PriorityQueue currentNodes, Edge edge)
+        {
+            if (PosiblePath(edge.From, edge.Weight))
+            {
+                if (IsAShorterPath(edge.To, edge.From, edge.Weight))
+                {
+                    edge.From.RecreateOutEdges(edge);
+                    currentNodes.Add(edge.From);
+                }
+                else if (IsEqualPath(edge.To, edge.From, edge.Weight))
+                {
+                    edge.From.AddLastInEdge(edge);
+                }
+            }
+        }
+
 
         /// <summary>
         /// updates "To" node of an edge.
         /// </summary>
         /// <param name="currentNodes">queue of current exploring nodes</param>
         /// <param name="edge">exploring edge</param>
-        private void UpdateEdgeDestination(PriorityQueue currentNodes, Edge edge)
+        private void UpdateOutEdgeDestination(PriorityQueue currentNodes, Edge edge)
         {
-            if (PosiblePath(edge))
+            if (PosiblePath(edge.To, edge.Weight))
             {
-                if (IsAShorterPath(edge))
+                if (IsAShorterPath(edge.From, edge.To, edge.Weight))
                 {
                     edge.To.RecreateInEdges(edge);
                     currentNodes.Add(edge.To);
                 }
-                else if (IsEqualPath(edge))
+                else if (IsEqualPath(edge.From, edge.To, edge.Weight))
                 {
                     edge.To.AddLastInEdge(edge);
                 }
@@ -126,28 +155,28 @@ namespace ShortestPath.models
         /// </summary>
         /// <param name="edge">exploring edge</param>
         /// <returns>true if that's a shorter path</returns>
-        private bool IsAShorterPath(Edge edge) => edge.From.Distance + edge.Weight < edge.To.Distance;
+        private bool IsAShorterPath(Node from, Node to, double weight) => from.Distance + weight < to.Distance;
 
         /// <summary>
         /// is current exploring path as long as previous path to edge.To?
         /// </summary>
         /// <param name="edge">exploring edge</param>
         /// <returns>true if that's as long as previous path</returns>
-        private bool IsEqualPath(Edge edge) => edge.From.Distance + edge.Weight == edge.To.Distance;
+        private bool IsEqualPath(Node from, Node to, double weight) => from.Distance + weight == to.Distance;
 
         /// <summary>
         /// if we already found a shorter path to target, it returns false
         /// </summary>
         /// <param name="edge">exploring edge</param>
         /// <returns>true if we haven't already found a shorter path to target</returns>
-        private bool PosiblePath(Edge edge) => target.Distance >= edge.From.Distance + edge.Weight;
+        private bool PosiblePath(Node from, double weight) => target.Distance >= from.Distance + weight;
 
         /// <summary>
         /// create result subgraph for shortest path finding.
         /// </summary>
         private void CreateResultSubgraph()
         {
-            var currentNodes = new HashSet<Node> { target };
+            var currentNodes = new HashSet<Node> { target , source};
 
             while (currentNodes.Count > 0)
             {
@@ -162,6 +191,16 @@ namespace ShortestPath.models
                     result.AddEdge(edge.From.Index, edge.To.Index, edge.Weight);
                     currentNodes.Add(edge.From);
                 });
+                if (!directed)
+                {
+                    node.LastOutEdges.ForEach(edge =>
+                    {
+                        result.AddEdge(edge.From.Index, edge.To.Index, edge.Weight);
+                        if (result.Exploring(edge.To.Index)) return;
+
+                        currentNodes.Add(edge.To);
+                    });
+                }
             }
         }
 
@@ -173,7 +212,7 @@ namespace ShortestPath.models
         /// <returns>state of current path</returns>
         private State ExploreAllPaths(Node currentNode, double currentDistance)
         {
-            if (currentNode.State.ReachState == ReachState.UNREACHABLE 
+            if (currentNode.State.ReachState == ReachState.UNREACHABLE
                 && currentDistance >= currentNode.Distance)
             {
                 return currentNode.State;
@@ -209,7 +248,7 @@ namespace ShortestPath.models
             }
 
             var state = ExploreAllPaths(edge.To, currentDistance + 1);
-            
+
             if (state.ReachState == ReachState.REACHED)
             {
                 edge.From.State.ReachState = state.ReachState;

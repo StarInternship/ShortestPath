@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace ShortestPath.models
 {
+    [DebuggerDisplay("{Count}")]
     /// <summary>
     /// a sorted queue used in find shortest paths
     /// </summary>
     public class PriorityQueue
     {
+        
         /// <summary>
         /// sorted dictionary of node distance to nodes set havind that distance to source
         /// </summary>
